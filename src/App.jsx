@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AssetCalculator, AssetLinkedIn, AssetTOF, AssetMOF, AssetNurture } from './StageAssets';
+import { AssetCalculator, AssetLinkedIn, AssetCreatives, AssetNurture, AssetMarket, AssetAudience, AssetChannel, AssetCAC, AssetExpansion } from './StageAssets';
 import { ChevronDown, Calendar, ArrowRight } from 'lucide-react';
 
 const STAGE_MAP = {
   0: 'hero',
-  1: 'tof',
-  2: 'linkedin',
-  3: 'linkedin',
-  4: 'tof',
+  1: 'market',
+  2: 'audience',
+  3: 'channel',
+  4: 'creatives',
   5: 'calc',
   6: 'linkedin',
   7: 'nurture',
-  8: 'mof',
-  9: 'calc',
+  8: 'cac',
+  9: 'expansion',
 };
 
 const BG_MAP = { 1: '/asset-calendly.png', 8: '/asset-doodle.png', 6: '/asset-viral.png' };
@@ -394,9 +394,13 @@ export default function App() {
               )}
               {stageKey === 'calc' && <AssetCalculator />}
               {stageKey === 'linkedin' && <AssetLinkedIn />}
-              {stageKey === 'tof' && <AssetTOF />}
-              {stageKey === 'mof' && <AssetMOF />}
+              {stageKey === 'creatives' && <AssetCreatives />}
               {stageKey === 'nurture' && <AssetNurture />}
+              {stageKey === 'market' && <AssetMarket />}
+              {stageKey === 'audience' && <AssetAudience />}
+              {stageKey === 'channel' && <AssetChannel />}
+              {stageKey === 'cac' && <AssetCAC />}
+              {stageKey === 'expansion' && <AssetExpansion />}
             </motion.div>
           </AnimatePresence>
         </div>
