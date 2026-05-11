@@ -6,14 +6,13 @@ import { ChevronDown, Calendar, ArrowRight } from 'lucide-react';
 const STAGE_MAP = {
   0: 'hero',
   1: 'calc',
-  2: 'calc',
+  2: 'tof',
   3: 'tof',
-  4: 'tof',
+  4: 'nurture',
   5: 'linkedin',
-  6: 'nurture',
+  6: 'mof',
   7: 'mof',
-  8: 'mof',
-  9: 'calc',
+  8: 'calc',
 };
 
 const BG_MAP = { 1: '/asset-calendly.png', 8: '/asset-doodle.png', 6: '/asset-viral.png' };
@@ -23,6 +22,7 @@ const BLOCK_COLORS = {
   red:     { badge: 'badge-red',     border: '#EF4444', numColor: '#FEE2E2' },
   emerald: { badge: 'badge-emerald', border: '#10B981', numColor: '#D1FAE5' },
   gray:    { badge: 'badge-gray',    border: '#94A3B8', numColor: '#F1F5F9' },
+  indigo:  { badge: 'badge-indigo',  border: '#6366F1', numColor: '#E0E7FF' },
 };
 
 const mono = { fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 };
@@ -50,7 +50,7 @@ const itemVariants = {
 };
 
 function Block({ idx, badge, badgeColor, title, children }) {
-  const c = BLOCK_COLORS[badgeColor];
+  const c = BLOCK_COLORS[badgeColor] || BLOCK_COLORS.gray;
   return (
     <div data-block={idx} className="min-h-[85vh] flex flex-col justify-center py-20 scroll-mt-20 relative overflow-hidden group">
       <div className="absolute -left-4 top-10 font-black leading-none select-none pointer-events-none transition-all duration-700 opacity-60 group-hover:opacity-100 group-hover:scale-105 origin-left"
@@ -77,7 +77,7 @@ function BudgetBar({ label, amount, pct, color, delay = 0 }) {
       <div className="flex justify-between items-baseline">
         <span className="text-base font-semibold text-slate-700">{label}</span>
         <span className="text-base font-black text-slate-900" style={mono}>
-          {amount} <span className="text-slate-400 font-semibold text-sm">— {pct}%</span>
+          <span style={mono}>{amount}</span> <span className="text-slate-400 font-semibold text-sm" style={mono}>· {pct}%</span>
         </span>
       </div>
       <div className="h-2.5 bg-slate-200/50 rounded-full overflow-hidden shadow-inner backdrop-blur-sm border border-slate-200">
@@ -113,7 +113,7 @@ function DataRow({ label, value, bold }) {
   return (
     <div className="flex justify-between items-baseline py-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors rounded px-2">
       <span className="text-base font-medium text-slate-600">{label}</span>
-      <span className={`text-base ${bold ? 'font-black text-slate-900 bg-slate-100 px-2 py-0.5 rounded shadow-sm' : 'font-bold text-slate-800'}`} style={mono}>{value}</span>
+      <span className={`text-base ${bold ? 'font-black text-slate-900 bg-slate-100 px-2 py-0.5 rounded shadow-sm' : 'font-bold text-slate-800'}`}>{value}</span>
     </div>
   );
 }
@@ -132,7 +132,7 @@ export default function App() {
         {/* Sticky progress indicator */}
         <div className="fixed left-0 top-0 bottom-0 w-1.5 bg-slate-200 z-50">
           <motion.div className="w-full bg-blue-600" 
-            style={{ height: `${(active / 9) * 100}%` }} 
+            style={{ height: `${(active / 8) * 100}%` }} 
             transition={{ type: "spring", stiffness: 50 }} />
         </div>
 
@@ -140,7 +140,7 @@ export default function App() {
         <div data-block={0} className="min-h-screen flex flex-col justify-center pb-20 pt-10">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, type: "spring" }}>
             
-            {/* Status Badge — inspired by calculator's live diagnostic badge */}
+            {/* Status Badge */}
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 }}
               className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-blue-50/80 border border-blue-200/60 mb-10 shadow-sm backdrop-blur-sm">
               <span className="relative flex h-2.5 w-2.5">
@@ -159,7 +159,7 @@ export default function App() {
               className="w-32 h-1.5 bg-gradient-to-r from-blue-600 to-emerald-500 rounded-full mb-10" />
 
             <p className="text-2xl md:text-3xl text-slate-600 font-medium leading-relaxed max-w-2xl mb-14">
-              How Doodle captures <span className="font-bold text-slate-900">50,000 users</span> by attacking the one problem Calendly's product cannot solve.
+              How Doodle captures <span className="font-bold text-slate-900" style={mono}>50,000</span> users by attacking the one problem Calendly's product cannot solve.
             </p>
             
             <div className="p-8 glass-panel bg-white/60 max-w-xl">
@@ -186,185 +186,178 @@ export default function App() {
         </div>
 
         {/* ─── BLOCK 1 ─── */}
-        <Block idx={1} badge="Slide 1 — Open With the Hook" badgeColor="blue"
-          title={<>A Solutions Architect. <span style={mono}>$150K</span> base. <span style={mono}>8</span> panel calls a month.<br/><span className="text-red-600 font-mono">$18,400</span> gone this quarter — to email threads.</>}>
-          <motion.p variants={itemVariants}>That is not a projection. That is the math, right now — calculated from real inputs on the tool to your right.</motion.p>
-          <motion.p variants={itemVariants}>Before this presentation explains a single strategy, it forces the target audience to interact with the raw financial cost of their own problem. That number is the villain in this story.</motion.p>
-          <motion.p variants={itemVariants}>Our goal: acquire <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>50,000</span> Doodle users in the US market. The instinctive approach — targeting anyone who needs a scheduling link — is a dead end. Calendly already owns that category. A spend-for-spend fight on Google Ads would exhaust a <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>$1,000,000</span> budget in under 90 days.</motion.p>
-          <motion.p variants={itemVariants}>The winning move is not to fight where Calendly is strongest. It is to attack where its product structurally breaks down.</motion.p>
-          <Transition>The question this raises: why does a tool as sophisticated as Calendly leave this problem completely unsolved?</Transition>
+        <Block idx={1} badge="The Growth Hack" badgeColor="blue"
+          title={<>We started with a hack.<br/><span className="text-slate-400">Here is what it does, and why we built it.</span></>}>
+          <motion.p variants={itemVariants}>Mégane opened this session with a question: how do startups go viral? Airbnb hijacked Craigslist. Dropbox gave away storage for referrals and grew <span style={mono}>3900%</span>. Hotmail added a line to every outgoing email and reached 12 million users in 18 months.</motion.p>
+          <motion.p variants={itemVariants}>Our hack is different in mechanism but identical in logic. We built a live calculator that converts three real inputs: salary, call volume, and hours wasted per call, into a single quarterly loss figure for any Solutions Architect working enterprise pre-sales. That number is not hypothetical. It is calculated from their own inputs, right now, on the tool to your right.</motion.p>
+          <motion.p variants={itemVariants}>The call-to-action is not "try Doodle." It is "Calculate My Loss."</motion.p>
+          <motion.p variants={itemVariants}>No product pitch. No feature list. Just a number that proves the problem is real and makes it personal. The person who interacts with this calculator understands immediately why they need a better tool. That is the growth hack.</motion.p>
+          <motion.p variants={itemVariants}>Our goal: acquire <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>50,000</span> Doodle users in the US market by targeting <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>10,000</span> enterprise teams. Total Year 1 budget: <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>$1,400,000</span>.</motion.p>
+          <Transition>But Mégane also asked: is client acquisition just about hacking? The answer changes everything about how this strategy was built.</Transition>
         </Block>
 
         {/* ─── BLOCK 2 ─── */}
-        <Block idx={2} badge="Slide 2 — The Pivot" badgeColor="gray"
-          title={<>But the real question is:<br/><span className="text-slate-400">why would a hack like this work sustainably — and for this specific audience?</span></>}>
-          <motion.p variants={itemVariants}>A calculator that reveals a pain point is a clever trick. What makes it a <em className="font-serif">system</em> is the chain of logic underneath it: the product-market fit, the channel strategy, the conversion journey, and the viral loop that makes each acquisition cheaper than the last.</motion.p>
-          <motion.p variants={itemVariants}>This presentation is not a pitch. It is a proof. Each slide maps to one of the five building blocks of sustainable client acquisition from the Albert School framework — demonstrated live, not just illustrated.</motion.p>
-          <motion.p variants={itemVariants}>We will walk through every link in that chain, and show that each one is load-bearing.</motion.p>
-          <Transition>Start with the foundation: why does Doodle actually fit this market?</Transition>
+        <Block idx={2} badge="Sustainable vs. One-Time" badgeColor="gray"
+          title={<>A hack gets you in the door.<br/><span className="text-slate-400">It does not keep you there.</span></>}>
+          <motion.p variants={itemVariants}>Airbnb's Craigslist hack gave them their first users. It did not make them a 150-billion-dollar company. What came after the hack did: trust-building, brand campaigns, SEO, localised content, partnerships. Sustainable acquisition comes from a system, not a trick.</motion.p>
+          <motion.p variants={itemVariants}>A calculator that reveals a pain point is a clever trick. What makes it a system is the chain underneath it. Before we spent a single euro on ads, we had to answer five questions that Mégane's framework defines as the building blocks of sustainable growth. Each one is addressed in the slides that follow.</motion.p>
+          <motion.p variants={itemVariants}>This presentation is not a pitch. It is a proof. Every building block from the course is demonstrated live, not just illustrated on a slide.</motion.p>
+          <Transition>Start with the foundation. Does Doodle actually fit this market?</Transition>
         </Block>
 
         {/* ─── BLOCK 3 ─── */}
-        <Block idx={3} badge="Building Block 1 — Product-Market Fit" badgeColor="red"
-          title={<>We didn't choose Doodle's target.<br/><span className="text-red-600">The product's structural advantage chose it for us.</span></>}>
-          <motion.p variants={itemVariants}>Calendly made a deliberate design decision: optimise for the 1:1 meeting. One person sends a link. The other picks a time. It is an excellent product for that use case.</motion.p>
-          <motion.p variants={itemVariants}>High-value enterprise business does not work this way.</motion.p>
-          <motion.p variants={itemVariants}>When a Solutions Architect sets up a technical scoping call, they are coordinating their own engineers, their AE, their solutions consultant, and three to five people on the buyer's side — including a CTO whose calendar is managed by three EAs, and a security lead with availability every other Tuesday before 10am.</motion.p>
-          <motion.blockquote variants={itemVariants} className="pl-6 py-2 border-l-[4px] border-slate-900 bg-slate-100/50 rounded-r-xl text-slate-900 font-bold text-xl leading-relaxed not-italic my-8 shadow-sm">
-            A 1:1 scheduling link sent to that group does not produce a meeting. It produces a reply-all thread.
+        <Block idx={3} badge="Building Block 1: Product-Market Fit" badgeColor="red"
+          title={<>We did not choose Doodle's target.<br/><span className="text-red-600">The product's structural advantage chose it for us.</span></>}>
+          <motion.p variants={itemVariants}>Mégane's first building block is clear: sustainable acquisition starts with a product that solves a real need. You cannot growth-hack your way out of a bad product. So before any strategy, we had to answer honestly: does Doodle actually fit a real market?</motion.p>
+          <motion.p variants={itemVariants}>Calendly made a deliberate product decision: optimise for the 1-on-1 meeting. One person sends a link. The other picks a time. That is an excellent product for that use case.</motion.p>
+          <motion.p variants={itemVariants}>High-value enterprise business does not work that way.</motion.p>
+          <motion.p variants={itemVariants}>When a Solutions Architect sets up a technical scoping call, they are coordinating their own engineers, their AE, their solutions consultant, and three to five people on the buyer's side, including a CTO whose calendar is managed by three EAs and a security lead with availability every other Tuesday before 10am.</motion.p>
+          <motion.blockquote variants={itemVariants} className="pl-5 border-l-[3px] border-[#111827] text-[#111827] font-semibold text-[17px] leading-relaxed not-italic my-6 bg-slate-100/50 py-3 pr-4 rounded-r-xl">
+            A 1-on-1 scheduling link sent to that group does not produce a meeting. It produces a reply-all thread.
           </motion.blockquote>
-          <motion.p variants={itemVariants}>This is not a criticism of Calendly. It is a product choice that left an entire category — multi-party group coordination — without a purpose-built solution. That gap is exactly where Doodle's multi-party polling lives.</motion.p>
-          <motion.p variants={itemVariants} className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm"><strong className="text-slate-900 text-xl font-black block mb-2">The reframe that wins:</strong> We are not selling a scheduling tool. We are selling <strong className="text-blue-600">deal velocity</strong> — the ability to close faster by removing calendar friction from the critical path.</motion.p>
-          <Transition>Gap confirmed. But a gap alone is not a strategy — you need a system to reach the people inside it.</Transition>
+          <motion.p variants={itemVariants}>This is not a criticism of Calendly. It is a product decision that left an entire category, multi-party group coordination, without a purpose-built solution. That gap is exactly where Doodle's multi-party polling lives.</motion.p>
+          <motion.p variants={itemVariants}>We are not selling a scheduling tool. We are selling deal velocity: the ability to close faster by removing calendar friction from the critical path. That is a real need. That is genuine product-market fit.</motion.p>
+          <Transition>PMF confirmed. Next question: how does a prospect move from seeing an ad to becoming a paying customer?</Transition>
         </Block>
 
         {/* ─── BLOCK 4 ─── */}
-        <Block idx={4} badge="Building Block 2 — Conversion Journey" badgeColor="blue"
-          title={<>Every step was designed around<br/><span className="text-blue-600">a specific moment of friction in the buyer's day.</span></>}>
-          <motion.p variants={itemVariants}>The funnel has three steps. Each one exists because of a specific barrier — not because of a template.</motion.p>
+        <Block idx={4} badge="Building Block 2: Conversion Journey" badgeColor="blue"
+          title={<>Every step was designed around<br/><span className="text-blue-600">a specific moment of friction.</span></>}>
+          <motion.p variants={itemVariants}>Mégane's second building block asks us to map the steps a customer takes, identify the key moments, and understand what motivates or blocks them at each stage. Our funnel has three steps. Each one exists because of a specific barrier, not a template.</motion.p>
           <motion.div variants={itemVariants} className="space-y-6 mt-8">
-            <div className="glass-panel p-6">
-              <p className="font-black text-slate-900 text-lg mb-2">Step 1 — Interruption (LinkedIn Ads)</p>
-              <p>Solutions Architects do not search for scheduling tools. They are not looking for Doodle. We have to interrupt their feed with something precise enough to stop the scroll. The ad to your right was engineered to speak directly in their technical language — a system error they immediately recognise. The call-to-action is not "try Doodle." It is "Calculate My Loss."</p>
+            <div className="glass-panel p-5 border-t-2 border-slate-400">
+              <p className="font-black text-slate-900 text-lg mb-2">Step 1: Interruption</p>
+              <p className="text-slate-600">Solutions Architects do not search for scheduling tools. We have to interrupt their LinkedIn feed with something precise enough to stop the scroll. The TOF ad was engineered to speak in their technical language, a system error they immediately recognise. The call-to-action is not "try Doodle." It is "Calculate My Loss."</p>
             </div>
-            <div className="glass-panel p-6">
-              <p className="font-black text-slate-900 text-lg mb-2">Step 2 — Value Exchange (Deal Velocity Calculator)</p>
-              <p>No purchase ask on first contact. Clicks go to a live calculator that converts their salary, call volume, and wasted hours into a personalised quarterly loss figure. To receive the full report, they provide their work email. The exchange is financial intelligence for contact information.</p>
+            <div className="glass-panel p-5 border-t-2 border-blue-400">
+              <p className="font-black text-slate-900 text-lg mb-2">Step 2: Value Exchange</p>
+              <p className="text-slate-600">No purchase ask on first contact. Clicks go to the live calculator that converts their inputs into a personalised quarterly loss figure. To receive the full report, they provide their work email. The exchange is financial intelligence for contact information.</p>
             </div>
-            <div className="glass-panel p-6">
-              <p className="font-black text-slate-900 text-lg mb-2">Step 3 — Conversion (Email Nurture Sequence)</p>
-              <p>Three emails. Each is a distinct lever. Day 0 anchors the financial pain in their own numbers. Day 2 removes the technical adoption barrier — proving Doodle connects to Salesforce, Slack, and Google Calendar without an IT ticket. Day 5 arms them to sell internally — a four-sentence pitch they can forward directly to their VP of Sales.</p>
+            <div className="glass-panel p-5 border-t-2 border-emerald-400">
+              <p className="font-black text-slate-900 text-lg mb-2">Step 3: Conversion</p>
+              <p className="text-slate-600">Three emails. Each is a distinct lever. Day 0 anchors the financial pain in their own numbers. Day 2 removes the technical adoption barrier, proving Doodle connects to Salesforce, Slack, and Google Calendar without an IT ticket. Day 5 arms them to sell internally with a four-sentence pitch they can forward to their VP of Sales.</p>
             </div>
           </motion.div>
           <motion.p variants={itemVariants} className="mt-8 font-bold text-slate-900 text-xl">No email is filler. Every word has a job.</motion.p>
-          <Transition>The journey is designed. The next question: where do we find these people, and how much does it cost to reach them?</Transition>
+          <Transition>Journey mapped. Now: where do we find these people, and what does it cost to reach them?</Transition>
         </Block>
 
         {/* ─── BLOCK 5 ─── */}
-        <Block idx={5} badge="Building Block 3 — Acquisition Channels" badgeColor="blue"
+        <Block idx={5} badge="Building Block 3: Acquisition Channels" badgeColor="blue"
           title={<>We did not choose LinkedIn because it was trendy.<br/><span className="text-slate-400">We chose it because it is the only platform where we can verify a job title before buying a click.</span></>}>
-          <motion.p variants={itemVariants}>Calendly dominates organic search for scheduling. A Google Ads fight would exhaust the budget in 90 days. This is not a creative problem — it is a structural one. Inbound cannot work here because the target is not actively searching for a solution to a problem they have not yet quantified.</motion.p>
-          <motion.p variants={itemVariants}>We must build demand outbound. That logic drives everything below.</motion.p>
+          <motion.p variants={itemVariants}>Mégane's third building block: not all channels are equal. Choose channels based on where your audience is, not what is trendy. For Doodle targeting Solutions Architects, two facts determined the channel decision.</motion.p>
+          <motion.p variants={itemVariants}>First: Calendly dominates organic search for scheduling. A Google Ads fight would exhaust the budget in 90 days. This is not a creative problem. It is structural. Inbound cannot work here because the target is not actively searching for a solution to a problem they have not yet quantified.</motion.p>
+          <motion.p variants={itemVariants}>Second: LinkedIn is the only platform offering verified job-title targeting at scale. We can buy impressions specifically from people whose job title is "Solutions Architect" at US enterprise tech companies. No other platform offers that precision.</motion.p>
+          <motion.p variants={itemVariants}>We must build demand outbound. That logic drives the budget allocation below.</motion.p>
           
           <motion.div variants={itemVariants} className="my-10">
-            <p className="font-black text-slate-900 text-xl mb-4">Unit Economics — Derived, Not Guessed:</p>
             <div className="glass-panel p-6 bg-white/90">
-              <DataRow label="Goal" value="10,000 Teams (50,000 users)" />
-              <DataRow label="Team LTV" value="$420" />
-              <DataRow label="Target LTV:CAC ratio" value="3:1" />
-              <DataRow label="Max allowable CAC" value="$140 / team" />
-              <DataRow label="Year 1 Budget" value="$1,400,000" bold />
+              <DataRow label="Goal" value={<span style={mono}>10,000 Teams (50,000 users)</span>} />
+              <DataRow label="Team LTV" value={<span style={mono}>$420</span>} />
+              <DataRow label="Max allowable CAC" value={<span style={mono}>$140</span>} />
+              <DataRow label="Year 1 Budget" value={<span style={mono}>$1,400,000</span>} bold />
             </div>
           </motion.div>
           
           <motion.div variants={itemVariants} className="my-10">
-            <p className="font-black text-slate-900 text-xl mb-6">Channel Allocation:</p>
             <div className="glass-panel p-8 space-y-8 bg-white/90">
-              <BudgetBar label="LinkedIn — Demand Gen (TOF)" amount="$910K" pct={65} color="#3B82F6" delay={0} />
-              <BudgetBar label="LinkedIn + Display — Retargeting (MOF)" amount="$350K" pct={25} color="#60A5FA" delay={0.2} />
-              <BudgetBar label="Google Search — High-Intent (BOF)" amount="$140K" pct={10} color="#94A3B8" delay={0.4} />
+              <BudgetBar label="LinkedIn: Demand Gen (TOF)" amount={<span style={mono}>$910K</span>} pct={<span style={mono}>65</span>} color="#3B82F6" delay={0} />
+              <BudgetBar label="LinkedIn + Display: Retargeting (MOF)" amount={<span style={mono}>$350K</span>} pct={<span style={mono}>25</span>} color="#60A5FA" delay={0.2} />
+              <BudgetBar label="Google Search: High-Intent Capture (BOF)" amount={<span style={mono}>$140K</span>} pct={<span style={mono}>10</span>} color="#94A3B8" delay={0.4} />
             </div>
           </motion.div>
           
-          <motion.p variants={itemVariants}>LinkedIn at <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>65%</span> because it is the only platform with verified job-title targeting. Nobody Googles "multi-party scheduling" — the demand does not yet exist. We must create it.</motion.p>
-          <motion.p variants={itemVariants}>Retargeting at <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>25%</span> because enterprise professionals rarely convert on first touch. This budget recaptures Calculator visitors who did not submit their email.</motion.p>
-          <motion.p variants={itemVariants}>Google Search at <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>10%</span> to harvest the intent our LinkedIn spend creates. Targets "Doodle for Teams" and "Calendly alternatives for enterprise" — the searches that appear after a prospect has already seen the ad.</motion.p>
-          <Transition>The channel logic is sound. But does the math hold over 12 months — and how does it improve?</Transition>
+          <motion.p variants={itemVariants}>Google Search at <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>10%</span> exists to harvest the intent our LinkedIn spend already created. It targets "Doodle for Teams" and "Calendly alternatives for enterprise," the searches that appear after a prospect has seen the ad. The channel mix works together.</motion.p>
+          <Transition>The channels are chosen. Does the math hold over 12 months, and does it improve?</Transition>
         </Block>
 
         {/* ─── BLOCK 6 ─── */}
-        <Block idx={6} badge="Building Block 4 — Experimentation & Data" badgeColor="emerald"
+        <Block idx={6} badge="Building Block 4: Experimentation and Data" badgeColor="emerald"
           title={<>Every number in this plan is derived, not guessed.<br/><span className="text-emerald-500">The CAC curve is a hypothesis we are designed to compress.</span></>}>
-          <motion.p variants={itemVariants}>Our customer acquisition cost does not stay flat. It follows a deliberate compression curve as the funnel matures from expensive cold outreach to organic product-led growth.</motion.p>
+          <motion.p variants={itemVariants}>Mégane's fourth building block: use data to inform decisions, not just to report results. Look beyond vanity metrics. Test, learn, and iterate with a goal and a hypothesis. Our hypothesis is specific: customer acquisition cost compresses over 12 months as the funnel matures from cold outreach to product-led growth.</motion.p>
           
-          <motion.div variants={itemVariants} className="space-y-6 mt-8">
-            <p><strong className="text-slate-900 text-lg">Phase 1 — Month 3 · CAC: <span className="font-mono bg-red-100 text-red-700 px-1 rounded">$140</span></strong><br/>Launch. Zero brand presence in B2B Pre-Sales. Every conversion is paid at full LinkedIn market rate. At <span style={mono}>$140</span> CAC against <span style={mono}>$420</span> LTV the unit economics hold. The work of this phase is not efficiency — it is building the user base and email database that makes Phase 2 possible.</p>
-            <p><strong className="text-slate-900 text-lg">Phase 2 — Month 6 · CAC: <span className="font-mono bg-yellow-100 text-yellow-700 px-1 rounded">$110</span></strong><br/>The email database built in Months 1–3 converts at low marginal cost. Google Search begins capturing the intent our LinkedIn spend already created, at a significantly lower CPC. Month 6 is the inflection point where we stop primarily buying users and start primarily converting them.</p>
-            <p><strong className="text-slate-900 text-lg">Phase 3 — Month 12 · CAC: <span className="font-mono bg-emerald-100 text-emerald-700 px-1 rounded">$85</span></strong><br/>The product itself becomes a distribution vector.</p>
-          </motion.div>
-          
-          <motion.p variants={itemVariants} className="mt-8 font-medium">
-            The mechanism: we acquire 1 Solutions Architect via paid LinkedIn. They immediately send Doodle multi-party polls to their clients — the buyer's CTO, Security Lead, Project Manager. <strong className="text-slate-900 font-bold bg-slate-100 px-1 rounded" style={mono}>4–5 high-level external stakeholders</strong> experience Doodle's group scheduling firsthand, at zero acquisition cost. A portion of those stakeholders adopt Doodle for their own teams organically.
-          </motion.p>
-          
-          <motion.p variants={itemVariants}>Each paid acquisition partially funds several unpaid ones. Blended CAC drops as organic signups increase as a share of total growth.</motion.p>
-          
-          {/* Dark Premium CAC card */}
-          <motion.div variants={itemVariants} className="bg-slate-900 rounded-2xl p-8 mt-10 grid grid-cols-3 gap-6 text-center shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 via-yellow-500 to-emerald-500" />
-            <div>
-              <p className="text-4xl font-black text-white" style={mono}>$140</p>
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mt-2">Month 3</p>
-              <p className="text-sm font-medium text-slate-500 mt-1">LinkedIn cold demand</p>
+          <motion.div variants={itemVariants} className="bg-[#111827] rounded-xl p-6 flex justify-between items-center mt-4 mb-8">
+            <div className="flex flex-col items-center">
+              <p className="text-gray-400 text-xs uppercase font-bold tracking-widest mb-1">Month 3</p>
+              <p className="text-white text-2xl font-black mb-1" style={mono}>$140</p>
+              <p className="text-gray-500 text-xs font-semibold">LinkedIn cold demand</p>
             </div>
-            <div className="border-l border-r border-slate-700/50 flex flex-col items-center justify-center">
-              <p className="text-4xl font-black text-white" style={mono}>$110</p>
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mt-2">Month 6</p>
-              <p className="text-sm font-medium text-slate-500 mt-1">Email nurture + Search</p>
+            <div className="text-gray-600 text-xl font-bold">→</div>
+            <div className="flex flex-col items-center">
+              <p className="text-gray-400 text-xs uppercase font-bold tracking-widest mb-1">Month 6</p>
+              <p className="text-white text-2xl font-black mb-1" style={mono}>$110</p>
+              <p className="text-gray-500 text-xs font-semibold">Email nurture and Search</p>
             </div>
-            <div>
-              <p className="text-4xl font-black text-emerald-400 [text-shadow:_0_0_20px_rgb(52_211_153_/_0.4)]" style={mono}>$85</p>
-              <p className="text-xs font-bold uppercase tracking-widest text-emerald-700 mt-2">Month 12</p>
-              <p className="text-sm font-medium text-emerald-600/80 mt-1">Viral loop + PLG</p>
+            <div className="text-gray-600 text-xl font-bold">→</div>
+            <div className="flex flex-col items-center">
+              <p className="text-emerald-400 text-xs uppercase font-bold tracking-widest mb-1">Month 12</p>
+              <p className="text-emerald-400 text-2xl font-black mb-1" style={mono}>$85</p>
+              <p className="text-emerald-500/80 text-xs font-semibold">Viral loop and PLG</p>
             </div>
           </motion.div>
-          <Transition>The math compresses. But only if we acquire the right customers — volume without quality collapses the model.</Transition>
+
+          <motion.p variants={itemVariants}>Phase 1, Month 3, CAC <span className="font-mono bg-red-100 text-red-700 px-1 rounded" style={mono}>$140</span>: Every conversion is paid at full LinkedIn market rate. The unit economics hold at <span style={mono}>$140</span> against a <span style={mono}>$420</span> LTV. The work of this phase is not efficiency. It is building the user base that makes Phase 2 possible.</motion.p>
+          <motion.p variants={itemVariants}>Phase 2, Month 6, CAC <span className="font-mono bg-yellow-100 text-yellow-700 px-1 rounded" style={mono}>$110</span>: The email database converts at low marginal cost. Google Search captures intent our LinkedIn spend already created, at a lower CPC. Month 6 is the inflection point.</motion.p>
+          <motion.p variants={itemVariants}>Phase 3, Month 12, CAC <span className="font-mono bg-emerald-100 text-emerald-700 px-1 rounded" style={mono}>$85</span>: The product becomes its own distribution vector. Each Solutions Architect we acquire immediately sends Doodle polls to their clients: the buyer's CTO, Security Lead, Project Manager. Between <span style={mono}>4</span> and <span style={mono}>5</span> high-level external stakeholders experience the product firsthand at zero acquisition cost. A share of those stakeholders adopt Doodle for their own teams organically.</motion.p>
+          <motion.p variants={itemVariants}>Each paid acquisition partially funds several unpaid ones. This mirrors Calendly's own growth mechanism, applied where Calendly underperforms.</motion.p>
+          <Transition>The math compresses. But only if we acquire the right customers. Volume without quality breaks the model.</Transition>
         </Block>
 
         {/* ─── BLOCK 7 ─── */}
-        <Block idx={7} badge="Building Block 5 — Customer Quality Over Volume" badgeColor="gray"
-          title={<>We could have targeted "anyone who schedules meetings."<br/><span className="text-slate-400">We rejected that. We went narrower to go bigger.</span></>}>
-          <motion.p variants={itemVariants}>Solutions Architects were not chosen because they were convenient. They were chosen because they satisfy every quality criterion simultaneously.</motion.p>
-          <motion.ul variants={containerVariants} initial="hidden" whileInView="show" className="space-y-4 my-8 pl-0">
-            <motion.li variants={itemVariants} className="glass-panel p-5 bg-white/80 border-l-4 border-l-blue-500 rounded-l-none">They convert faster — high pain, high urgency, direct line from the Calculator output to a commission loss they personally feel.</motion.li>
-            <motion.li variants={itemVariants} className="glass-panel p-5 bg-white/80 border-l-4 border-l-emerald-500 rounded-l-none">They stay longer — enterprise team accounts have natural stickiness. Once Doodle is embedded in a pre-sales workflow, it becomes infrastructure, not a tool.</motion.li>
-            <motion.li variants={itemVariants} className="glass-panel p-5 bg-white/80 border-l-4 border-l-indigo-500 rounded-l-none">They generate referrals automatically — through the viral loop, every acquisition sends Doodle polls to <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>4–5</span> external stakeholders at zero cost.</motion.li>
-          </motion.ul>
+        <Block idx={7} badge="Building Block 5: Customer Quality" badgeColor="gray"
+          title={<>We could have targeted anyone who schedules meetings.<br/><span className="text-slate-400">We rejected that. We went narrower to go further.</span></>}>
+          <motion.p variants={itemVariants}>Mégane's fifth building block: acquisition is not about volume. It is about attracting the right customers. High-quality clients convert faster, stay longer, and generate referrals. Optimise for both quantity and quality.</motion.p>
+          <motion.p variants={itemVariants}>Solutions Architects were not chosen because they were convenient. They were chosen because they satisfy every quality criterion at once.</motion.p>
+          
+          <motion.div variants={containerVariants} initial="hidden" whileInView="show" className="space-y-4 my-8 pl-0">
+            <motion.div variants={itemVariants} className="glass-panel p-5 bg-white/80 border-l-4 border-l-blue-500 rounded-l-none">
+              <strong className="block text-slate-900 mb-1">They convert faster.</strong>
+              High pain, high urgency. The calculator output is a commission loss they personally feel. The distance from awareness to trial is short.
+            </motion.div>
+            <motion.div variants={itemVariants} className="glass-panel p-5 bg-white/80 border-l-4 border-l-emerald-500 rounded-l-none">
+              <strong className="block text-slate-900 mb-1">They stay longer.</strong>
+              Once Doodle is embedded in a pre-sales workflow, it becomes infrastructure. Enterprise team accounts have natural stickiness.
+            </motion.div>
+            <motion.div variants={itemVariants} className="glass-panel p-5 bg-white/80 border-l-4 border-l-indigo-500 rounded-l-none">
+              <strong className="block text-slate-900 mb-1">They generate referrals automatically.</strong>
+              Through the viral loop, every acquisition sends Doodle polls to <span style={mono}>4</span> to <span style={mono}>5</span> external stakeholders at zero cost. The product acquires its own next users.
+            </motion.div>
+          </motion.div>
+          
           <motion.p variants={itemVariants} className="text-xl font-bold text-slate-900 border-l-4 border-slate-900 pl-4 py-2 my-8 bg-slate-100/50 rounded-r-lg">
-            And every <span className="font-mono bg-slate-200 px-1 rounded">$420</span> Team Plan has a natural expansion path to a <span className="font-mono bg-slate-200 px-1 rounded">$15,000+</span> organisation-wide enterprise contract — a <strong className="text-emerald-600">35× revenue multiplier</strong> per account, unlocked by the same user relationship.
+            Every <span className="font-mono bg-slate-200 px-1 rounded" style={mono}>$420</span> Team Plan carries a natural expansion path to a <span className="font-mono bg-slate-200 px-1 rounded" style={mono}>$15,000</span> organisation-wide enterprise contract. That is a 35x revenue multiplier per account, unlocked by the same user relationship we already built.
           </motion.p>
-          <motion.p variants={itemVariants}>The nurture sequence to your right is the mechanism that moves a high-quality lead from Calculator output to Team Trial without feeling like a sales sequence. Each email removes one specific barrier. No email asks for anything the prospect has not already agreed to intellectually.</motion.p>
-          <Transition>Quality secured, viral loop active, math compressing. What does Year 2 look like when all of this compounds?</Transition>
+          <Transition>Five building blocks confirmed. Now: what happens after the hack, just like Airbnb?</Transition>
         </Block>
 
         {/* ─── BLOCK 8 ─── */}
-        <Block idx={8} badge="Slide 8 — The Airbnb Moment" badgeColor="emerald"
-          title={<>The Calculator is our Craigslist hack.<br/><span className="text-emerald-500">The enterprise upsell is our "Belong Anywhere."</span></>}>
-          <motion.p variants={itemVariants}>Airbnb did not just hack Craigslist. They used the users Craigslist gave them to build trust infrastructure — reviews, host guarantees, brand campaigns, localised content — that made the hack obsolete. Year 1 is our Craigslist hack. Year 2 is our trust infrastructure.</motion.p>
+        <Block idx={8} badge="After the Hack" badgeColor="emerald"
+          title={<>The calculator was our Craigslist hack.<br/><span className="text-emerald-500">Sustainable growth is what comes next.</span></>}>
+          <motion.p variants={itemVariants}>Mégane asked: what did Airbnb do after the Craigslist hack? They built trust initiatives, brand campaigns, localised content, SEO, and partnerships. Sustainable client acquisition came from a mix of smart marketing, product trust, and value-building, not just one clever trick.</motion.p>
+          <motion.p variants={itemVariants}>Our answer to the same question, applied to Doodle:</motion.p>
+          <motion.p variants={itemVariants}>Year 1 establishes the beachhead. <span style={mono}>10,000</span> enterprise pre-sales teams in US tech. The Craigslist hack, the calculator, the TOF ad, the nurture sequence. Every link in the chain working together.</motion.p>
+          <motion.p variants={itemVariants}>Year 2 deploys the trust infrastructure those <span style={mono}>10,000</span> teams created.</motion.p>
           
-          <motion.div variants={itemVariants} className="glass-panel p-8 my-8 bg-slate-900 text-slate-300 shadow-2xl">
-            <p className="text-white font-black text-2xl mb-4">The Bowling Alley Model:</p>
-            <p className="text-lg leading-relaxed font-medium">We do not diversify at random. We use the beachhead we built — B2B Pre-Sales at US tech companies — as a precision instrument to knock down adjacent markets we deliberately avoided in Year 1.</p>
+          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 mb-10">
+            <div className="glass-panel p-5 bg-white/80">
+              <p className="font-black text-slate-900 text-lg mb-2">Adjacent Markets</p>
+              <p className="text-slate-600">The "Deal Velocity Calculator" becomes the "Billable Hours Loss Calculator" for corporate lawyers. The same architecture, a different P&L pain point. The IT security credentials earned in Year 1 satisfy the compliance requirements that blocked Year 1 entry into legal and finance.</p>
+            </div>
+            <div className="glass-panel p-5 bg-white/80">
+              <p className="font-black text-slate-900 text-lg mb-2">Enterprise Upsell</p>
+              <p className="text-slate-600">We move from product-led growth at <span style={mono}>$420</span> per year to enterprise sales at <span style={mono}>$15,000</span> per organisation. We already have active users inside these companies. We are not cold prospecting. We are asking for formal recognition of a relationship that already exists.</p>
+            </div>
           </motion.div>
           
-          <motion.p variants={itemVariants}>We rejected High Finance and Legal in Year 1 because we lacked the enterprise security credentials to pass their IT audits. Year 1 changes that. Our major tech company case studies satisfy those requirements.</motion.p>
-          <motion.ul variants={containerVariants} initial="hidden" whileInView="show" className="list-disc pl-6 space-y-4 my-6 font-medium text-lg">
-            <motion.li variants={itemVariants}>The "Deal Velocity Calculator" becomes the <strong>"Billable Hours Loss Calculator"</strong> for corporate lawyers — same logic, same mechanic, different P&L pain point.</motion.li>
-            <motion.li variants={itemVariants}>The same architecture redeploys for M&A coordination teams in investment banking.</motion.li>
-          </motion.ul>
+          <motion.div variants={containerVariants} initial="hidden" whileInView="show" className="mb-10 glass-panel p-4 bg-white/80">
+            <ChainItem index={1} label="Product-Market Fit" value="1-on-1 links break in group settings. Doodle's multi-party polling is the structural advantage Calendly cannot replicate." />
+            <ChainItem index={2} label="Conversion Journey" value="Interruption, value exchange, nurture. Each step designed around the friction point that would otherwise kill it." />
+            <ChainItem index={3} label="Acquisition Channels" value={<><span style={mono}>$910K</span> LinkedIn outbound because Calendly owns organic search and verified job-title targeting exists nowhere else.</>} />
+            <ChainItem index={4} label="Experimentation and Data" value={<>CAC compresses from <span style={mono}>$140</span> to <span style={mono}>$85</span> via a viral loop. Hypothesis tested, result tracked.</>} />
+            <ChainItem index={5} label="Customer Quality" value={<>Solutions Architects convert faster, stay longer, and generate organic referrals. Every <span style={mono}>$420</span> account has a <span style={mono}>$15,000</span> expansion path.</>} />
+          </motion.div>
           
-          <motion.div variants={itemVariants} className="mt-10 p-6 border-2 border-slate-200 rounded-2xl bg-white/50 backdrop-blur-sm">
-            <p className="text-slate-900 font-black text-xl mb-3">Phase 3 — Top-Down Enterprise Upsell:</p>
-            <p className="mb-4">We move from bottom-up product-led growth (<span className="font-bold bg-slate-100 px-1 rounded" style={mono}>$420</span>/year) to top-down enterprise sales (<span className="font-bold bg-slate-100 px-1 rounded" style={mono}>$15,000+</span> organisation-wide contracts). We already have active users inside these organisations. We are not cold prospecting. We are asking for formal recognition of a relationship that already exists.</p>
-            <p><strong className="text-slate-900">The leverage:</strong> we are not asking for permission to enter — we are converting <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>10,000</span> team-level relationships into enterprise contracts with the data and case studies those teams generated.</p>
-          </motion.div>
-          <Transition>Every piece of this connects. The final question: how do we know each link is actually load-bearing?</Transition>
-        </Block>
-
-        {/* ─── BLOCK 9 ─── */}
-        <Block idx={9} badge="Slide 9 — The Logic Chain" badgeColor="blue"
-          title={<>Client acquisition that scales is not one clever idea.<br/><span className="text-blue-600">It is a chain where each link is load-bearing.</span></>}>
-          <motion.p variants={itemVariants} className="text-xl font-medium">Remove any one of these links and the model collapses. Leave them all in place and <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>$1,400,000</span> becomes <span className="font-bold bg-slate-100 px-1 rounded" style={mono}>$3,000,000</span> becomes market leadership.</motion.p>
-          <motion.div variants={containerVariants} initial="hidden" whileInView="show" className="mt-10 mb-12 glass-panel p-4 bg-white/80">
-            <ChainItem index={1} label="Product-Market Fit" value="1:1 links break in group settings. Doodle's multi-party polling is the structural advantage Calendly's product cannot replicate." />
-            <ChainItem index={2} label="Conversion Journey" value="LinkedIn interruption → Calculator value exchange → 3-email nurture. Each step designed around the friction point that would kill it." />
-            <ChainItem index={3} label="Acquisition Channels" value="$910K LinkedIn outbound because Calendly owns organic search and verified job-title targeting exists nowhere else." />
-            <ChainItem index={4} label="Experimentation & Data" value="CAC compresses from $140 to $85 via a PLG viral loop that mirrors Calendly's own growth model, applied where Calendly underperforms." />
-            <ChainItem index={5} label="Customer Quality" value="Solutions Architects convert faster, stay longer, and generate organic referrals. Every $420 account has a $15,000 expansion path." />
-          </motion.div>
-          <motion.p variants={itemVariants} className="mt-8 text-xl font-bold text-slate-900 border-l-4 border-slate-900 pl-4 py-2 bg-slate-100/50 rounded-r-lg">The jury's unspoken question is always: did they understand the theory, or did they just build something?</motion.p>
-          <motion.p variants={itemVariants} className="mt-6 font-medium">This presentation answers both simultaneously. The Calculator to your right is not a trick. It is the theory, demonstrated live. The number it produced at the start of this presentation is the same problem this entire chain was built to solve.</motion.p>
-          <motion.p variants={itemVariants} className="text-3xl font-black text-slate-900 mt-10 tracking-tight text-center bg-white py-6 rounded-2xl shadow-sm border border-slate-200">The chain is closed.</motion.p>
+          <motion.p variants={itemVariants} className="text-xl font-bold text-slate-900">Mégane said it best: no new customers, no business. This is the system we built to make sure that never happens to Doodle.</motion.p>
         </Block>
 
       </div>
@@ -408,7 +401,7 @@ export default function App() {
         
         {/* Modern Dot Indicators */}
         <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-3">
-          {Array.from({ length: 10 }).map((_, i) => (
+          {Array.from({ length: 9 }).map((_, i) => (
             <div key={i} className="relative flex items-center justify-center w-4 h-4">
               <div className={`w-2 h-2 rounded-full transition-all duration-500 ${active === i ? 'bg-slate-900 scale-[2]' : 'bg-slate-300'}`} />
               {active === i && (
