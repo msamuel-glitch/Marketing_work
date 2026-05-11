@@ -2,87 +2,31 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { motion, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import { Mail, Settings, Calendar, DollarSign, Clock, Users, ArrowRight, Zap, CheckCircle2, ChevronRight, MessageSquare, AlertCircle, ExternalLink, Play } from 'lucide-react';
 
-/* ═══════ ASSET A: CALCULATOR PREVIEW CARD ═══════ 
-   Shows a beautiful interactive preview of the calculator.
-   When clicked, opens the full calculator app in a new tab. */
 export function AssetCalculator() {
-  const [salary, setSalary] = useState(150000);
-  const [calls, setCalls] = useState(8);
-  const [hours, setHours] = useState(2.5);
-
-  const hourlyRate = useMemo(() => salary / 2080, [salary]);
-  const quarterlyBleed = useMemo(() => Math.round(hourlyRate * calls * hours * 3), [hourlyRate, calls, hours]);
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-
-  const springValue = useSpring(0, { stiffness: 100, damping: 20 });
-  
-  useEffect(() => {
-    springValue.set(quarterlyBleed);
-  }, [quarterlyBleed, springValue]);
-
-  const displayValue = useTransform(springValue, (latest) => `$${Math.round(latest).toLocaleString()}`);
+  const [loaded, setLoaded] = useState(false);
 
   return (
     <div className="w-full max-w-lg mx-auto">
-      {/* Calculator Card */}
-      <div className="glass-panel p-8">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-2">
-            <Zap className="w-5 h-5 text-blue-500" />
-            <p className="text-sm font-bold uppercase tracking-[0.15em] text-slate-500">Live Pipeline Diagnostic</p>
+      <div className="glass-panel overflow-hidden relative shadow-2xl border border-slate-200" style={{ height: '600px' }}>
+        {!loaded && (
+          <div className="absolute inset-0 flex items-center justify-center bg-slate-100/50 backdrop-blur-md z-10">
+            <div className="text-center">
+              <Zap className="w-10 h-10 text-blue-500 mx-auto mb-3 animate-pulse" />
+              <p className="text-base font-semibold text-slate-500">Loading Live Calculator</p>
+            </div>
           </div>
-        </div>
-        
-        <div className="space-y-8 mb-10">
-          <SliderRow icon={<DollarSign className="w-5 h-5 text-slate-400" />} label="Annual Base Salary" value={`$${salary.toLocaleString()}`} min={80000} max={300000} step={5000} val={salary} set={setSalary} />
-          <SliderRow icon={<Users className="w-5 h-5 text-slate-400" />} label="Panel Scoping Calls / Month" value={calls} min={1} max={30} step={1} val={calls} set={setCalls} />
-          <SliderRow icon={<Clock className="w-5 h-5 text-slate-400" />} label="Hours Lost per Call" value={`${hours}h`} min={0.5} max={10} step={0.5} val={hours} set={setHours} />
-        </div>
-
-        <div className="text-center py-10 border-t border-b border-slate-200/60 bg-gradient-to-b from-transparent via-red-50/30 to-transparent">
-          <p className="text-sm font-bold uppercase tracking-[0.15em] text-slate-500 mb-4">Quarterly Commission Bleed</p>
-          <motion.div className="text-7xl font-black text-red-600 tracking-tighter leading-none [text-shadow:_0_10px_40px_rgb(220_38_38_/_0.2)]">
-            {displayValue}
-          </motion.div>
-          <p className="text-base text-slate-400 mt-4 font-mono">
-            ${hourlyRate.toFixed(2)}/hr × {calls} calls × {hours}h × 3 months
-          </p>
-        </div>
-
-        <div className="mt-8 text-center">
-          {!submitted ? (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              <p className="text-xl font-bold text-slate-900 mb-1">Stop bleeding deal velocity.</p>
-              <p className="text-base text-slate-500 mb-6">Get your personalized ROI report.</p>
-              <div className="flex gap-3 max-w-sm mx-auto">
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@company.com"
-                  className="flex-1 px-5 py-3.5 rounded-xl border border-slate-200 text-base bg-white/50 backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all shadow-inner" />
-                <button onClick={() => email.includes('@') && setSubmitted(true)}
-                  className="px-6 py-3.5 bg-slate-900 text-white text-base font-bold rounded-xl hover:bg-black transition-all shadow-[0_4px_14px_0_rgb(0,0,0,0.1)] active:scale-95 flex items-center gap-2">
-                  Report <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-emerald-50/80 backdrop-blur-md border border-emerald-200 rounded-xl p-6 shadow-sm">
-              <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto mb-3" />
-              <p className="text-lg font-bold text-emerald-800">Report generating for {email}</p>
-              <a href="https://doodle.com/en/teams/" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 mt-4 text-base font-bold text-emerald-600 hover:text-emerald-700 transition-colors">
-                Start Free Doodle Team Trial ($420/yr) <ChevronRight className="w-4 h-4" />
-              </a>
-            </motion.div>
-          )}
-        </div>
+        )}
+        <iframe
+          src="https://doodle-roi-calculator.vercel.app/"
+          title="Doodle Deal Velocity Calculator"
+          className="w-full h-full border-0"
+          onLoad={() => setLoaded(true)}
+          sandbox="allow-scripts allow-same-origin allow-forms"
+        />
       </div>
-
-      {/* Link to full calculator experience */}
-      <a href="http://localhost:5173" target="_blank" rel="noopener noreferrer"
-        className="mt-4 flex items-center justify-center gap-2 py-3 text-sm font-bold text-slate-500 hover:text-blue-600 transition-colors group">
-        <ExternalLink className="w-4 h-4 group-hover:scale-110 transition-transform" />
-        Open Full Calculator Experience
-      </a>
+      <p className="text-center text-sm font-semibold text-slate-400 mt-4 flex items-center justify-center gap-2">
+        <ExternalLink className="w-4 h-4" /> Live Interactive Application — Deployed to Vercel
+      </p>
     </div>
   );
 }
