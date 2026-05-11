@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-[#F4F7FA] text-[#0F172A] antialiased selection:bg-blue-200 selection:text-blue-900;
+    font-family: 'Inter', system-ui, sans-serif;
+    /* Soft ambient mesh gradient background for Light Mode Glassmorphism */
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(210, 100%, 95%, 1) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsla(250, 100%, 97%, 1) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, hsla(200, 100%, 94%, 1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsla(260, 100%, 96%, 1) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  /* Pro Max Glassmorphism */
+  .glass-panel {
+    @apply bg-white/70 backdrop-blur-2xl rounded-2xl border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden;
+  }
+  
+  .badge {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] shadow-sm;
+  }
+  .badge-blue { @apply bg-blue-50/80 text-blue-700 border border-blue-200/50 backdrop-blur-sm; }
+  .badge-red { @apply bg-red-50/80 text-red-700 border border-red-200/50 backdrop-blur-sm; }
+  .badge-emerald { @apply bg-emerald-50/80 text-emerald-700 border border-emerald-200/50 backdrop-blur-sm; }
+  .badge-gray { @apply bg-slate-100/80 text-slate-600 border border-slate-200/50 backdrop-blur-sm; }
+
+  /* Premium Slider */
+  .slider-track {
+    @apply w-full h-2 rounded-full bg-slate-200/50 appearance-none cursor-pointer backdrop-blur-md border border-black/5;
+  }
+  .slider-track::-webkit-slider-thumb {
+    @apply appearance-none w-6 h-6 rounded-full bg-white border-2 border-[#0F172A] shadow-[0_4px_12px_rgba(15,23,42,0.3)] cursor-grab transition-transform active:scale-110 active:cursor-grabbing;
+  }
+  .slider-track::-moz-range-thumb {
+    @apply w-6 h-6 rounded-full bg-white border-2 border-[#0F172A] shadow-[0_4px_12px_rgba(15,23,42,0.3)] cursor-grab transition-transform active:scale-110 active:cursor-grabbing;
+  }
+}

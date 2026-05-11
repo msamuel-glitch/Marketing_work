@@ -1,0 +1,332 @@
+
+<h2 class="sr-only">Animated 25-second Doodle MOF LinkedIn retargeting ad</h2>
+
+<style>
+#ad-stage * { box-sizing: border-box; }
+.scene { position: absolute; inset: 0; display: none; }
+.scene.active { display: flex; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(0.93)} 100%{transform:scale(1)} }
+</style>
+
+<div style="max-width:580px;margin:0 auto;font-family:var(--font-sans)">
+  <div style="background:#1B1F23;border-radius:12px;border:0.5px solid #30363D;overflow:hidden">
+
+    <!-- LinkedIn header -->
+    <div style="padding:10px 14px;display:flex;align-items:center;gap:10px;border-bottom:0.5px solid #21262D">
+      <div style="width:38px;height:38px;background:#0A66C2;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;flex-shrink:0">d</div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:500;color:#E6EDF3">Doodle</div>
+        <div style="font-size:11px;color:#7D8590">Promoted · 🌐</div>
+      </div>
+      <div style="font-size:18px;color:#7D8590">···</div>
+    </div>
+
+    <!-- Ad stage -->
+    <div id="ad-stage" style="width:100%;aspect-ratio:16/9;background:#0D1117;position:relative;overflow:hidden;cursor:pointer" onclick="replayAd()">
+
+      <!-- SCENE 1: Inbox -->
+      <div id="s1" class="scene active" style="flex-direction:column">
+        <div style="padding:6px 14px;background:#161B22;border-bottom:0.5px solid #21262D;display:flex;align-items:center;gap:8px;flex-shrink:0">
+          <span style="font-size:12px;color:#7D8590;font-family:var(--font-mono)">INBOX</span>
+          <span style="font-size:11px;background:#DA3633;color:#fff;border-radius:8px;padding:1px 7px;font-weight:600">847</span>
+        </div>
+        <div style="flex:1;overflow:hidden;position:relative">
+          <div id="email-scroll" style="position:absolute;width:100%;top:0;left:0"></div>
+        </div>
+        <div style="position:absolute;top:38px;right:12px;background:#160000;border:1.5px solid #DA3633;border-radius:5px;padding:7px 11px;text-align:center">
+          <div style="font-size:10px;color:#7D8590;font-family:var(--font-mono);letter-spacing:.06em">TIME WASTED</div>
+          <div id="t-display" style="font-size:22px;font-weight:700;color:#F85149;font-family:var(--font-mono);margin-top:2px;animation:blink 1s infinite">0d 0h</div>
+        </div>
+      </div>
+
+      <!-- SCENE 2: Doodle Interface -->
+      <div id="s2" class="scene" style="flex-direction:column;background:#161B22">
+        <div style="padding:7px 14px;background:#0D1117;border-bottom:0.5px solid #21262D;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+          <div style="display:flex;align-items:center;gap:7px">
+            <div style="width:18px;height:18px;background:#FF6B35;border-radius:3px"></div>
+            <span style="font-size:13px;font-weight:600;color:#E6EDF3">doodle</span>
+          </div>
+          <span style="font-size:11px;color:#7D8590">new event poll</span>
+        </div>
+        <div style="padding:12px 16px;flex:1">
+          <div style="font-size:10px;color:#7D8590;font-family:var(--font-mono);margin-bottom:4px;letter-spacing:.05em">MEETING TITLE</div>
+          <div style="font-size:14px;font-weight:600;color:#E6EDF3;padding:7px 10px;background:#21262D;border-radius:6px;border:1px solid #30363D;margin-bottom:12px">Tech Validation Panel</div>
+          <div style="font-size:10px;color:#7D8590;font-family:var(--font-mono);margin-bottom:8px;letter-spacing:.05em">SELECT AVAILABLE TIME SLOTS</div>
+          <div id="slot1" style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:#21262D;border-radius:6px;border:1px solid #30363D;margin-bottom:6px">
+            <div id="cb1" style="width:16px;height:16px;border-radius:3px;border:1.5px solid #444C56;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .25s"></div>
+            <div><div style="font-size:13px;color:#E6EDF3;font-weight:500">Monday, Jun 9 · 2:00 PM</div><div style="font-size:11px;color:#7D8590">EST · 1 hour · 6 participants</div></div>
+          </div>
+          <div id="slot2" style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:#21262D;border-radius:6px;border:1px solid #30363D;margin-bottom:6px">
+            <div id="cb2" style="width:16px;height:16px;border-radius:3px;border:1.5px solid #444C56;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .25s"></div>
+            <div><div style="font-size:13px;color:#E6EDF3;font-weight:500">Tuesday, Jun 10 · 10:00 AM</div><div style="font-size:11px;color:#7D8590">EST · 1 hour · 6 participants</div></div>
+          </div>
+          <div id="slot3" style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:#21262D;border-radius:6px;border:1px solid #30363D;margin-bottom:10px">
+            <div id="cb3" style="width:16px;height:16px;border-radius:3px;border:1.5px solid #444C56;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .25s"></div>
+            <div><div style="font-size:13px;color:#E6EDF3;font-weight:500">Wednesday, Jun 11 · 3:00 PM</div><div style="font-size:11px;color:#7D8590">EST · 1 hour · 6 participants</div></div>
+          </div>
+          <div id="send-btn" style="background:#FF6B35;color:white;border:none;border-radius:6px;padding:9px;font-size:13px;font-weight:700;width:100%;text-align:center;opacity:.3;transition:opacity .5s">Send Poll →</div>
+        </div>
+        <div id="cursor" style="position:absolute;width:14px;height:20px;pointer-events:none;display:none;z-index:20;transition:left .45s cubic-bezier(.4,0,.2,1),top .45s cubic-bezier(.4,0,.2,1)">
+          <svg viewBox="0 0 14 20" width="14" height="20"><path d="M1 1 L1 16 L4.5 12.5 L7 18 L9 17 L6.5 11.5 L11 11.5 Z" fill="white" stroke="#0D1117" stroke-width="1.2"/></svg>
+        </div>
+      </div>
+
+      <!-- SCENE 3: Split screen votes + calendar -->
+      <div id="s3" class="scene">
+        <div style="flex:1;background:#161B22;padding:12px 14px;border-right:0.5px solid #21262D;display:flex;flex-direction:column">
+          <div style="font-size:10px;color:#7D8590;font-family:var(--font-mono);letter-spacing:.06em;margin-bottom:6px">STAKEHOLDER VOTES</div>
+          <div style="font-size:12px;color:#3FB950;margin-bottom:10px;font-weight:600">Tech Validation Panel · Jun 10</div>
+          <div id="votes-wrap" style="flex:1"></div>
+        </div>
+        <div style="flex:1;background:#0D1117;padding:12px 14px;display:flex;flex-direction:column">
+          <div style="font-size:10px;color:#7D8590;font-family:var(--font-mono);letter-spacing:.06em;margin-bottom:6px">GOOGLE CALENDAR</div>
+          <div style="font-size:11px;color:#7D8590;margin-bottom:10px">Tuesday, June 10</div>
+          <div style="font-size:11px;color:#444C56;margin-bottom:6px">9:00 AM</div>
+          <div id="cal-event" style="background:#0D3B2E;border:1px solid #238636;border-radius:6px;padding:10px 12px;opacity:0;transition:opacity .6s">
+            <div style="font-size:13px;font-weight:700;color:#3FB950">Tech Validation Panel</div>
+            <div style="font-size:11px;color:#7EE787;margin-top:3px">10:00 – 11:00 AM EST</div>
+            <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px" id="attendee-chips"></div>
+            <div style="font-size:11px;color:#56D364;margin-top:8px;font-weight:500">✓ All 5 attendees confirmed</div>
+          </div>
+          <div style="font-size:11px;color:#444C56;margin-top:6px">11:00 AM</div>
+        </div>
+      </div>
+
+      <!-- SCENE 4: Success badge -->
+      <div id="s4" class="scene" style="align-items:center;justify-content:center;background:rgba(13,17,23,.9)">
+        <div style="background:#0D3B2E;border:2px solid #3FB950;border-radius:12px;padding:22px 36px;text-align:center;animation:fadeIn .4s ease">
+          <div style="font-size:36px;color:#3FB950;margin-bottom:6px">✓</div>
+          <div style="font-size:22px;font-weight:700;color:#3FB950;letter-spacing:.01em">Deal Scheduled</div>
+          <div style="font-size:14px;color:#7EE787;margin-top:4px">in 4 minutes</div>
+          <div style="font-size:11px;color:#56D364;margin-top:8px;opacity:.8">vs. 2 weeks by email</div>
+        </div>
+      </div>
+
+      <!-- Replay hint -->
+      <div id="replay-hint" style="position:absolute;bottom:10px;right:10px;display:none;background:rgba(0,0,0,.7);border-radius:4px;padding:5px 10px;font-size:11px;color:#7D8590">↺ click to replay</div>
+
+    </div>
+
+    <!-- Progress bar -->
+    <div style="height:3px;background:#21262D"><div id="prog" style="height:100%;background:#FF6B35;width:0%;transition:width .05s linear"></div></div>
+
+    <!-- Ad copy -->
+    <div style="padding:14px 16px;border-top:0.5px solid #21262D">
+      <div style="font-size:15px;font-weight:600;color:#E6EDF3;margin-bottom:5px">Stop coordinating executives by email.</div>
+      <div style="font-size:13px;color:#7D8590;line-height:1.6">You already know the number. Finish your calculation and get your next scoping call booked in three clicks.</div>
+      <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:11px;color:#7D8590">doodle.com</span>
+        <div style="background:#0A66C2;color:white;border-radius:20px;padding:7px 18px;font-size:13px;font-weight:600">Resume My Calculation</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+const TOTAL = 25000;
+const S1_END = 7000, S2_END = 14500, S3_END = 22000, S4_END = 25000;
+
+const emails = [
+  {from:'j.chen@nexuscorp.io', subj:'Re: Re: Re: Re: Scoping Call Availability', time:'11:42', preview:"I can do Thurs after 3pm but NOT Wed morning, our CTO is in board prep..."},
+  {from:'sarah.m@acmesales.com', subj:'Re: Re: Re: Scoping Call Availability', time:'11:38', preview:"Wednesday doesn't work — security lead is traveling until the 15th"},
+  {from:'k.patel@buyertech.io', subj:'Re: Re: Scoping Call Availability', time:'10:55', preview:"Can we push to next week? Also need to loop in our procurement team"},
+  {from:'tom.r@buyertech.io', subj:'Re: Re: Re: Re: Re: Scoping Call', time:'10:22', preview:"Following up on the below. Still no confirmed time? Deal is stalling"},
+  {from:'me@mycompany.com', subj:'Re: Re: Re: Re: Scoping Call Availability', time:'09:18', preview:"Here are 6 options across 3 weeks. Please reply-all with your availability"},
+  {from:'cto@buyertech.io', subj:'Re: Re: Scoping Call Availability', time:'Tue', preview:"I'm only free early mornings before 9am EST — board is consuming my calendar"},
+  {from:'j.chen@nexuscorp.io', subj:'Re: Scoping Call Availability', time:'Tue', preview:"What about Tuesday the 18th? Actually no, I have a product review until 4pm"},
+  {from:'procurement@buyertech.io', subj:'Re: Re: Re: Re: Scoping Call', time:'Mon', preview:"Can someone add me to this thread? I need to review the agenda first"},
+  {from:'sarah.m@acmesales.com', subj:'Scoping Call Availability', time:'Mon', preview:"Hi all — trying to find a time for the Tech Validation call. Please share..."},
+  {from:'calendar@outlook.com', subj:'Cancelled: Scoping Call (3rd attempt)', time:'Mon', preview:"This meeting has been cancelled due to scheduling conflicts. Rescheduling needed."},
+];
+const initColors=['#1f4e79','#2d5016','#5c1a1a','#3b2d6e','#1a3d3d','#4a2c00','#002d4a','#3d1a00','#1a0d3d','#002a00'];
+const stakeholders=[
+  {name:'J. Chen', role:'Buyer · Tech Lead', init:'JC', col:'#1f4e79'},
+  {name:'Sarah M.', role:'Buyer · Procurement', init:'SM', col:'#2d5016'},
+  {name:'K. Patel', role:'Buyer · CTO', init:'KP', col:'#5c1a1a'},
+  {name:'Tom R.', role:'Buyer · PM', init:'TR', col:'#3b2d6e'},
+  {name:'You', role:'Solutions Architect', init:'ME', col:'#1a3d3d'},
+];
+
+let timers=[], tiInt=null, prInt=null;
+function addT(ms,fn){timers.push(setTimeout(fn,ms));}
+function clearAll(){timers.forEach(clearTimeout);timers=[];if(tiInt)clearInterval(tiInt);if(prInt)clearInterval(prInt);}
+
+function showScene(n){
+  for(let i=1;i<=4;i++){
+    const el=document.getElementById('s'+i);
+    if(el) el.className='scene'+(n===i?' active':'');
+  }
+}
+
+function buildEmails(){
+  const c=document.getElementById('email-scroll');
+  if(!c) return;
+  c.innerHTML=emails.map((e,i)=>`
+    <div style="padding:8px 14px;border-bottom:0.5px solid #21262D;display:flex;gap:9px;background:${i<3?'#161B22':'#0D1117'}">
+      <div style="width:28px;height:28px;background:${initColors[i]};border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:rgba(255,255,255,.8);margin-top:2px">${e.from[0].toUpperCase()}</div>
+      <div style="flex:1;min-width:0;overflow:hidden">
+        <div style="display:flex;justify-content:space-between;margin-bottom:2px">
+          <span style="font-size:12px;font-weight:${i<3?'600':'400'};color:${i<3?'#E6EDF3':'#7D8590'};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px">${e.from}</span>
+          <span style="font-size:10px;color:#7D8590;flex-shrink:0;margin-left:4px">${e.time}</span>
+        </div>
+        <div style="font-size:12px;color:${i<3?'#C9D1D9':'#6E7681'};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:${i<3?'500':'400'}">${e.subj}</div>
+        <div style="font-size:11px;color:#6E7681;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px">${e.preview}</div>
+      </div>
+    </div>`).join('');
+}
+
+function buildVotes(){
+  const c=document.getElementById('votes-wrap');
+  if(!c) return;
+  c.innerHTML=stakeholders.map((p,i)=>`
+    <div id="v${i}" style="display:flex;align-items:center;gap:8px;margin-bottom:7px;opacity:0;transition:opacity .4s">
+      <div style="width:24px;height:24px;background:${p.col};border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:rgba(255,255,255,.85)">${p.init}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:12px;color:#E6EDF3;font-weight:500">${p.name}</div>
+        <div style="font-size:10px;color:#7D8590">${p.role}</div>
+      </div>
+      <div id="ck${i}" style="width:20px;height:20px;border-radius:50%;background:#161B22;border:1.5px solid #30363D;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .3s">
+        <svg id="sv${i}" width="10" height="8" viewBox="0 0 10 8" style="display:none"><path d="M1 4L3.5 6.5L9 1.5" stroke="#3FB950" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>`).join('');
+
+  const ac=document.getElementById('attendee-chips');
+  if(ac) ac.innerHTML=stakeholders.map(p=>`<div style="background:${p.col};border-radius:12px;padding:2px 8px;font-size:10px;color:rgba(255,255,255,.8);font-weight:500">${p.init}</div>`).join('');
+}
+
+function getPos(id){
+  const el=document.getElementById(id), st=document.getElementById('ad-stage');
+  if(!el||!st) return{x:20,y:20};
+  const er=el.getBoundingClientRect(), sr=st.getBoundingClientRect();
+  return{x:er.left-sr.left+er.width/2, y:er.top-sr.top+er.height/2};
+}
+function moveCursor(x,y){
+  const c=document.getElementById('cursor');
+  if(c){c.style.left=(x-7)+'px';c.style.top=(y-5)+'px';}
+}
+function checkSlot(id){
+  const el=document.getElementById(id);
+  if(el){el.style.background='#3FB950';el.style.border='1.5px solid #3FB950';el.innerHTML='<svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4L3.5 6.5L9 1.5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';}
+}
+
+function startTimer(){
+  let s=0;
+  const d=document.getElementById('t-display');
+  if(tiInt)clearInterval(tiInt);
+  tiInt=setInterval(()=>{
+    s++;
+    const days=Math.floor(s/6), hrs=Math.floor((s%6)*4);
+    if(d) d.textContent=days+'d '+hrs+'h';
+    if(s>36) clearInterval(tiInt);
+  },160);
+}
+
+function startProgress(){
+  const p=document.getElementById('prog');
+  if(!p) return;
+  const start=Date.now();
+  if(prInt)clearInterval(prInt);
+  prInt=setInterval(()=>{
+    const pct=Math.min(100,(Date.now()-start)/TOTAL*100);
+    p.style.width=pct+'%';
+    if(pct>=100){clearInterval(prInt);p.style.background='#3FB950';}
+  },50);
+}
+
+function playAd(){
+  clearAll();
+  ['cb1','cb2','cb3'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){el.style.background='';el.style.border='1.5px solid #444C56';el.innerHTML='';}
+  });
+  const sb=document.getElementById('send-btn');
+  if(sb){sb.style.opacity='.3';sb.style.background='#FF6B35';}
+  const cu=document.getElementById('cursor');
+  if(cu){cu.style.display='none';cu.style.transition='none';}
+  const ce=document.getElementById('cal-event');
+  if(ce) ce.style.opacity='0';
+  const rh=document.getElementById('replay-hint');
+  if(rh) rh.style.display='none';
+  const pp=document.getElementById('prog');
+  if(pp){pp.style.width='0%';pp.style.background='#FF6B35';}
+
+  buildEmails();
+  buildVotes();
+  showScene(1);
+  startTimer();
+  startProgress();
+
+  // Scroll emails slowly over 6.5s
+  addT(300,()=>{
+    const es=document.getElementById('email-scroll');
+    if(es) es.animate([{transform:'translateY(0)'},{transform:'translateY(-50%)'}],{duration:6400,easing:'linear',fill:'forwards'});
+  });
+
+  // — SCENE 2 at 7s —
+  addT(S1_END, ()=>{
+    showScene(2);
+    const cu=document.getElementById('cursor');
+    if(cu){
+      const p=getPos('cb1');
+      cu.style.transition='none';
+      cu.style.left=(p.x-7)+'px';
+      cu.style.top=(p.y+30)+'px';
+      cu.style.display='block';
+      setTimeout(()=>{cu.style.transition='left .45s cubic-bezier(.4,0,.2,1),top .45s cubic-bezier(.4,0,.2,1)';},60);
+    }
+    // Click slot 1
+    addT(800, ()=>moveCursor(getPos('cb1').x, getPos('cb1').y));
+    addT(1400, ()=>checkSlot('cb1'));
+    // Click slot 2
+    addT(2200, ()=>moveCursor(getPos('cb2').x, getPos('cb2').y));
+    addT(2800, ()=>checkSlot('cb2'));
+    // Click slot 3
+    addT(3800, ()=>moveCursor(getPos('cb3').x, getPos('cb3').y));
+    addT(4400, ()=>checkSlot('cb3'));
+    // Enable + click send
+    addT(4800, ()=>{const sb=document.getElementById('send-btn');if(sb)sb.style.opacity='1';});
+    addT(5500, ()=>moveCursor(getPos('send-btn').x, getPos('send-btn').y));
+    addT(6200, ()=>{const sb=document.getElementById('send-btn');if(sb){sb.style.background='#cc4f1e';sb.style.animation='pulse .2s ease';}});
+  });
+
+  // — SCENE 3 at 14.5s —
+  addT(S2_END, ()=>{
+    showScene(3);
+    // Votes appear one by one every 1s
+    for(let i=0;i<5;i++){
+      addT(i*1100, ()=>{
+        const v=document.getElementById('v'+i);
+        if(v) v.style.opacity='1';
+        setTimeout(()=>{
+          const ck=document.getElementById('ck'+i);
+          const sv=document.getElementById('sv'+i);
+          if(ck){ck.style.background='#0D3B2E';ck.style.borderColor='#3FB950';}
+          if(sv) sv.style.display='block';
+        }, 500);
+      });
+    }
+    // Calendar appears after all votes
+    addT(6000, ()=>{
+      const ce=document.getElementById('cal-event');
+      if(ce) ce.style.opacity='1';
+    });
+  });
+
+  // — SCENE 4 at 22s —
+  addT(S3_END, ()=>showScene(4));
+
+  // Replay hint
+  addT(S4_END+500, ()=>{
+    const rh=document.getElementById('replay-hint');
+    if(rh) rh.style.display='block';
+  });
+}
+
+window.replayAd=playAd;
+playAd();
+})();
+</script>
