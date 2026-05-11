@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AssetHero, AssetCalculator, AssetLinkedIn, AssetTOF, AssetMOF, AssetNurture, AssetMarket, AssetAudience, AssetChannel, AssetCAC, AssetExpansion } from './StageAssets';
+import { AssetHero, AssetCalculator, AssetLinkedIn, AssetCreatives, AssetNurture, AssetMarket, AssetAudience, AssetChannel, AssetCAC, AssetExpansion } from './StageAssets';
 import { ChevronDown, Calendar, ArrowRight } from 'lucide-react';
 
 const STAGE_MAP = {
@@ -8,11 +8,11 @@ const STAGE_MAP = {
   1: 'market',
   2: 'audience',
   3: 'channel',
-  4: 'tof',
+  4: 'creatives',
   5: 'calc',
   6: 'linkedin',
   7: 'nurture',
-  8: 'mof',
+  8: 'cac',
   9: 'expansion',
 };
 
@@ -386,8 +386,7 @@ export default function App() {
               {stageKey === 'hero' && <AssetHero />}
               {stageKey === 'calc' && <AssetCalculator />}
               {stageKey === 'linkedin' && <AssetLinkedIn />}
-              {stageKey === 'tof' && <AssetTOF />}
-              {stageKey === 'mof' && <AssetMOF />}
+              {stageKey === 'creatives' && <AssetCreatives />}
               {stageKey === 'nurture' && <AssetNurture />}
               {stageKey === 'market' && <AssetMarket />}
               {stageKey === 'audience' && <AssetAudience />}

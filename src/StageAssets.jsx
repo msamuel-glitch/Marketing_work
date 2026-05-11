@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Calendar, Clock, Users, ArrowRight, Zap, CheckCircle2, ChevronRight, MessageSquare, AlertCircle, ExternalLink, Play, Target, Filter, Lock, Activity, Link as LinkIcon, CalendarCheck, Share2 } from 'lucide-react';
+import { Mail, Calendar, Clock, Users, ArrowRight, Zap, CheckCircle2, ChevronRight, MessageSquare, AlertCircle, ExternalLink, Play, Target, Filter, Lock, Activity, Link as LinkIcon, CalendarCheck, Share2, Check } from 'lucide-react';
 
 const mono = { fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 };
 
@@ -550,6 +550,36 @@ export function AssetExpansion() {
               <Lock className="w-6 h-6 text-white" />
             </div>
           </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function AssetCreatives() {
+  const [activeTab, setActiveTab] = useState('tof');
+  return (
+    <div className="w-full">
+      <div className={glassCard}>
+        <MacControls title="Creative Asset Library" />
+        <div className="flex bg-slate-50 border-b border-slate-200">
+          <button onClick={() => setActiveTab('tof')} className={`flex-1 py-4 text-xs font-mono font-bold transition-all border-b-2 ${activeTab === 'tof' ? 'text-blue-600 border-blue-600 bg-white' : 'text-slate-500 border-transparent hover:text-slate-800'}`}>
+            01_TOF_AD.exe
+          </button>
+          <button onClick={() => setActiveTab('mof')} className={`flex-1 py-4 text-xs font-mono font-bold transition-all border-b-2 ${activeTab === 'mof' ? 'text-blue-600 border-blue-600 bg-white' : 'text-slate-500 border-transparent hover:text-slate-800'}`}>
+            02_MOF_VIDEO.mp4
+          </button>
+        </div>
+        <div className="h-[520px] overflow-hidden">
+          {activeTab === 'tof' ? (
+            <div className="-mt-16 transform scale-[0.85] origin-top">
+              <AssetTOF />
+            </div>
+          ) : (
+            <div className="-mt-16 transform scale-[0.85] origin-top">
+              <AssetMOF />
+            </div>
+          )}
         </div>
       </div>
     </div>
