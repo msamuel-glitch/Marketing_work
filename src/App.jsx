@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AssetCalculator, AssetLinkedIn, AssetCreatives, AssetNurture, AssetMarket, AssetAudience, AssetChannel, AssetCAC, AssetExpansion } from './StageAssets';
+import { AssetHero, AssetCalculator, AssetLinkedIn, AssetTOF, AssetMOF, AssetNurture, AssetMarket, AssetAudience, AssetChannel, AssetCAC, AssetExpansion } from './StageAssets';
 import { ChevronDown, Calendar, ArrowRight } from 'lucide-react';
 
 const STAGE_MAP = {
@@ -8,11 +8,11 @@ const STAGE_MAP = {
   1: 'market',
   2: 'audience',
   3: 'channel',
-  4: 'creatives',
+  4: 'tof',
   5: 'calc',
   6: 'linkedin',
   7: 'nurture',
-  8: 'cac',
+  8: 'mof',
   9: 'expansion',
 };
 
@@ -380,21 +380,14 @@ export default function App() {
           <div className="w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-3xl" />
         </div>
 
-        <div className="relative z-10 w-full px-12">
+        <div className="relative z-10 w-full px-16 xl:px-24">
           <AnimatePresence mode="wait">
             <motion.div key={stageKey} initial={{ opacity: 0, y: 20, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -20, scale: 0.98 }} transition={{ type: "spring", stiffness: 100, damping: 20 }}>
-              {stageKey === 'hero' && (
-                <div className="w-full flex flex-col items-center gap-8">
-                   <div className="w-56 h-56 bg-white rounded-[48px] shadow-2xl flex flex-col items-center justify-center border border-slate-100 rotate-2 hover:rotate-0 transition-transform duration-500 group cursor-default">
-                     <Calendar className="w-20 h-20 text-blue-600 group-hover:scale-110 transition-transform" strokeWidth={1.5} />
-                     <span className="text-3xl font-black text-slate-900 mt-4 tracking-tight">doodle</span>
-                   </div>
-                   <p className="text-lg font-semibold text-slate-500 text-center max-w-xs">Enterprise group scheduling that closes deals faster.</p>
-                </div>
-              )}
+              {stageKey === 'hero' && <AssetHero />}
               {stageKey === 'calc' && <AssetCalculator />}
               {stageKey === 'linkedin' && <AssetLinkedIn />}
-              {stageKey === 'creatives' && <AssetCreatives />}
+              {stageKey === 'tof' && <AssetTOF />}
+              {stageKey === 'mof' && <AssetMOF />}
               {stageKey === 'nurture' && <AssetNurture />}
               {stageKey === 'market' && <AssetMarket />}
               {stageKey === 'audience' && <AssetAudience />}

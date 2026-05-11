@@ -1,20 +1,92 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Calendar, Clock, Users, ArrowRight, Zap, CheckCircle2, ChevronRight, MessageSquare, AlertCircle, ExternalLink, Play, Target, Filter, ChevronDown, Check, Lock, Terminal, Activity } from 'lucide-react';
+import { Mail, Calendar, Clock, Users, ArrowRight, Zap, CheckCircle2, ChevronRight, MessageSquare, AlertCircle, ExternalLink, Play, Target, Filter, Lock, Activity, Link as LinkIcon, CalendarCheck, Share2 } from 'lucide-react';
 
 const mono = { fontFamily: "'JetBrains Mono', monospace", fontWeight: 700 };
-const brutalCard = "bg-[#0a0f1a] rounded-2xl shadow-2xl overflow-hidden border border-slate-800";
-const brutalHeader = "flex items-center px-5 py-3 bg-[#111827] border-b border-slate-800";
+
+// Glassmorphism wrapper for light mode (clean, natural, human)
+const glassCard = "bg-white/80 backdrop-blur-2xl rounded-[32px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-white overflow-hidden";
+const glassHeader = "flex items-center px-6 py-4 bg-slate-50/50 border-b border-slate-100 backdrop-blur-md";
 
 function MacControls({ title }) {
   return (
-    <div className={brutalHeader}>
-      <div className="flex gap-2">
-        <span className="w-3.5 h-3.5 rounded-full bg-red-500/80 shadow-[0_0_10px_rgba(239,68,68,0.5)]" />
-        <span className="w-3.5 h-3.5 rounded-full bg-yellow-500/80 shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-        <span className="w-3.5 h-3.5 rounded-full bg-emerald-500/80 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+    <div className={glassHeader}>
+      <div className="flex gap-2.5">
+        <span className="w-3.5 h-3.5 rounded-full bg-slate-200 shadow-inner" />
+        <span className="w-3.5 h-3.5 rounded-full bg-slate-200 shadow-inner" />
+        <span className="w-3.5 h-3.5 rounded-full bg-slate-200 shadow-inner" />
       </div>
-      <span className="mx-auto text-xs text-slate-500 font-mono tracking-wider">{title}</span>
+      <span className="mx-auto text-xs text-slate-400 font-bold tracking-widest uppercase">{title}</span>
+    </div>
+  );
+}
+
+export function AssetHero() {
+  return (
+    <div className="w-full relative h-[600px] flex items-center justify-center">
+      {/* Central Hub */}
+      <motion.div 
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1, type: 'spring', bounce: 0.4 }}
+        className="w-40 h-40 bg-white rounded-3xl shadow-[0_30px_60px_-15px_rgba(37,99,235,0.3)] border border-blue-100 flex flex-col items-center justify-center z-20 relative overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-emerald-50 opacity-50" />
+        <CalendarCheck className="w-16 h-16 text-blue-600 mb-2 relative z-10" strokeWidth={1.5} />
+        <span className="font-black tracking-tight text-xl text-slate-900 relative z-10">doodle</span>
+      </motion.div>
+
+      {/* Orbiting Nodes */}
+      {[
+        { delay: 0.2, angle: 0, icon: <Target className="w-5 h-5 text-indigo-500" />, label: "CTO" },
+        { delay: 0.4, angle: 72, icon: <Lock className="w-5 h-5 text-emerald-500" />, label: "Security" },
+        { delay: 0.6, angle: 144, icon: <Activity className="w-5 h-5 text-blue-500" />, label: "Engineering" },
+        { delay: 0.8, angle: 216, icon: <Users className="w-5 h-5 text-amber-500" />, label: "Pre-Sales" },
+        { delay: 1.0, angle: 288, icon: <Clock className="w-5 h-5 text-rose-500" />, label: "VP Sales" }
+      ].map((node, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, scale: 0, rotate: node.angle - 45, x: 250 }}
+          animate={{ opacity: 1, scale: 1, rotate: node.angle, x: 120 }}
+          transition={{ duration: 1.2, delay: node.delay, type: 'spring', bounce: 0.4 }}
+          style={{ position: 'absolute', originX: -0.5, originY: 0.5 }}
+          className="z-10"
+        >
+          <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md px-4 py-2 rounded-2xl shadow-xl border border-slate-100" style={{ transform: `rotate(-${node.angle}deg)` }}>
+            <div className="bg-slate-50 p-2 rounded-xl">{node.icon}</div>
+            <span className="font-bold text-slate-700 text-sm">{node.label}</span>
+          </div>
+        </motion.div>
+      ))}
+
+      {/* Connecting Pulses */}
+      <svg className="absolute inset-0 w-full h-full z-0 pointer-events-none" viewBox="0 0 600 600">
+        {[0, 72, 144, 216, 288].map((angle, i) => (
+          <motion.line
+            key={i}
+            x1="300" y1="300"
+            x2={300 + Math.cos(angle * Math.PI / 180) * 150}
+            y2={300 + Math.sin(angle * Math.PI / 180) * 150}
+            stroke="url(#gradient)" strokeWidth="2" strokeDasharray="4 4"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 0.4 }}
+            transition={{ duration: 1.5, delay: 1.5 + (i * 0.2), repeat: Infinity, repeatType: "reverse" }}
+          />
+        ))}
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#3B82F6" />
+            <stop offset="100%" stopColor="#10B981" />
+          </linearGradient>
+        </defs>
+      </svg>
+      
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.5 }} className="absolute bottom-0 text-center w-full">
+        <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/80 backdrop-blur-xl rounded-full shadow-lg border border-slate-100">
+          <Zap className="w-5 h-5 text-amber-500" />
+          <span className="font-bold text-slate-800 tracking-tight">Consensus Reached. Deal Velocity Unlocked.</span>
+        </div>
+      </motion.div>
     </div>
   );
 }
@@ -22,14 +94,14 @@ function MacControls({ title }) {
 export function AssetCalculator() {
   const [loaded, setLoaded] = useState(false);
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <div className={`${brutalCard} relative`} style={{ height: '620px' }}>
-        <MacControls title="doodle-roi-calculator.exe" />
+    <div className="w-full">
+      <div className={`${glassCard} relative`} style={{ height: '620px' }}>
+        <MacControls title="Live Pipeline Diagnostic" />
         {!loaded && (
-          <div className="absolute inset-0 flex items-center justify-center bg-[#0a0f1a] z-10 pt-10">
+          <div className="absolute inset-0 flex items-center justify-center bg-slate-50/80 backdrop-blur-md z-10 pt-10">
             <div className="text-center">
-              <Zap className="w-10 h-10 text-emerald-400 mx-auto mb-3 animate-pulse drop-shadow-[0_0_15px_rgba(52,211,153,0.5)]" />
-              <p className="text-sm font-mono text-emerald-400">INITIALIZING LIVE DIAGNOSTIC...</p>
+              <Zap className="w-10 h-10 text-blue-500 mx-auto mb-3 animate-pulse" />
+              <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">Loading Calculator...</p>
             </div>
           </div>
         )}
@@ -47,42 +119,41 @@ export function AssetCalculator() {
 
 export function AssetMarket() {
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <div className={brutalCard}>
-        <MacControls title="market_analysis.sh" />
-        <div className="p-8 space-y-6">
-          <div className="p-5 border border-red-500/30 bg-red-500/5 rounded-xl">
+    <div className="w-full">
+      <div className={glassCard}>
+        <MacControls title="Market Architecture Comparison" />
+        <div className="p-10 space-y-8">
+          <div className="p-6 border border-slate-100 bg-white rounded-2xl shadow-sm">
             <div className="flex justify-between items-center mb-4">
-              <span className="text-red-400 font-bold tracking-widest text-sm uppercase">Legacy Model</span>
-              <span className="px-2 py-1 bg-red-500/20 text-red-400 text-xs font-mono rounded">FAILED</span>
+              <span className="text-slate-400 font-bold tracking-widest text-xs uppercase flex items-center gap-2"><LinkIcon className="w-4 h-4"/> Legacy Model</span>
+              <span className="px-3 py-1 bg-slate-100 text-slate-500 text-xs font-bold rounded-full">FAILED</span>
             </div>
-            <p className="text-white text-xl font-bold mb-2">1:1 Link Scheduling</p>
-            <p className="text-slate-400 text-sm mb-4">Calendly architecture</p>
-            <div className="flex items-center gap-3 text-slate-500 font-mono text-xs">
-              <Users className="w-4 h-4" /> <span>5 Stakeholders</span>
-              <ArrowRight className="w-4 h-4 text-red-500" />
-              <span className="text-red-400">14-reply email thread</span>
+            <p className="text-slate-900 text-2xl font-black mb-2 tracking-tight">1:1 Link Scheduling</p>
+            <p className="text-slate-500 text-base mb-6">Calendly architecture</p>
+            <div className="flex items-center justify-between bg-slate-50 p-4 rounded-xl border border-slate-100">
+              <div className="flex items-center gap-2 font-bold text-slate-700"><Users className="w-5 h-5 text-slate-400" /> 5 Stakeholders</div>
+              <ArrowRight className="w-5 h-5 text-slate-300" />
+              <div className="text-red-600 font-bold bg-red-50 px-3 py-1.5 rounded-lg border border-red-100">14-reply email thread</div>
             </div>
           </div>
           
-          <div className="flex justify-center">
-            <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700">
-              <span className="text-slate-500 text-xs font-bold">VS</span>
+          <div className="flex justify-center relative -my-4 z-10">
+            <div className="w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center border border-slate-100 text-slate-400 font-black text-sm">
+              VS
             </div>
           </div>
 
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="p-5 border border-emerald-500/40 bg-emerald-500/10 rounded-xl relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/0 via-emerald-500/10 to-emerald-500/0 animate-[shimmer_2s_infinite]" />
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-emerald-400 font-bold tracking-widest text-sm uppercase">Target Model</span>
-              <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-mono rounded shadow-[0_0_10px_rgba(52,211,153,0.3)]">OPTIMIZED</span>
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="p-6 border border-blue-100 bg-gradient-to-br from-blue-50 to-white rounded-2xl shadow-md relative overflow-hidden">
+            <div className="flex justify-between items-center mb-4 relative z-10">
+              <span className="text-blue-600 font-bold tracking-widest text-xs uppercase flex items-center gap-2"><Share2 className="w-4 h-4"/> Target Model</span>
+              <span className="px-3 py-1 bg-blue-600 text-white shadow-md text-xs font-bold rounded-full shadow-blue-500/20">OPTIMIZED</span>
             </div>
-            <p className="text-white text-xl font-bold mb-2">Multi-Party Polling</p>
-            <p className="text-slate-400 text-sm mb-4">Doodle architecture</p>
-            <div className="flex items-center gap-3 text-slate-300 font-mono text-xs">
-              <Users className="w-4 h-4 text-emerald-400" /> <span className="text-emerald-100">5 Stakeholders</span>
-              <ArrowRight className="w-4 h-4 text-emerald-400" />
-              <span className="text-emerald-400 font-bold bg-emerald-500/20 px-2 py-1 rounded">Consensus in 4 mins</span>
+            <p className="text-slate-900 text-2xl font-black mb-2 tracking-tight relative z-10">Multi-Party Polling</p>
+            <p className="text-blue-600/70 text-base mb-6 relative z-10 font-medium">Doodle architecture</p>
+            <div className="flex items-center justify-between bg-white/80 backdrop-blur p-4 rounded-xl border border-blue-100 relative z-10 shadow-sm">
+              <div className="flex items-center gap-2 font-bold text-slate-800"><Users className="w-5 h-5 text-blue-500" /> 5 Stakeholders</div>
+              <ArrowRight className="w-5 h-5 text-blue-300" />
+              <div className="text-emerald-700 font-bold bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 flex items-center gap-2"><CheckCircle2 className="w-4 h-4"/> Consensus in 4 mins</div>
             </div>
           </motion.div>
         </div>
@@ -93,43 +164,43 @@ export function AssetMarket() {
 
 export function AssetAudience() {
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <div className={brutalCard}>
-        <MacControls title="target_acquisition.exe" />
-        <div className="p-8">
-          <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} className="border border-blue-500/30 bg-[#111827] rounded-2xl p-6 relative">
-            <div className="absolute -top-3 -right-3">
-               <span className="flex h-6 w-6">
-                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                 <span className="relative inline-flex rounded-full h-6 w-6 bg-blue-500 border-2 border-[#0a0f1a] items-center justify-center">
-                   <Check className="w-3 h-3 text-white" strokeWidth={3} />
+    <div className="w-full">
+      <div className={glassCard}>
+        <MacControls title="Target Audience Profile" />
+        <div className="p-10 bg-slate-50/50">
+          <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} transition={{ type: "spring", bounce: 0.4 }} className="bg-white rounded-3xl p-8 relative shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100">
+            <div className="absolute -top-4 -right-4">
+               <span className="flex h-10 w-10">
+                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-30"></span>
+                 <span className="relative inline-flex rounded-full h-10 w-10 bg-blue-600 border-4 border-white shadow-lg items-center justify-center">
+                   <Check className="w-5 h-5 text-white" strokeWidth={3} />
                  </span>
                </span>
             </div>
             
-            <div className="flex items-center gap-4 border-b border-slate-800 pb-6 mb-6">
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.4)]">
-                <Target className="w-8 h-8 text-white" />
+            <div className="flex items-center gap-6 border-b border-slate-100 pb-8 mb-8">
+              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <Target className="w-10 h-10 text-white" />
               </div>
               <div>
-                <p className="text-blue-400 font-mono text-xs mb-1">PERSONA LOCKED</p>
-                <p className="text-white font-bold text-xl">Solutions Architect</p>
-                <p className="text-slate-400 text-sm">US Technology Sector</p>
+                <p className="text-blue-600 font-bold text-xs mb-1 uppercase tracking-widest">Persona Locked</p>
+                <p className="text-slate-900 font-black text-2xl tracking-tight">Solutions Architect</p>
+                <p className="text-slate-500 text-base font-medium mt-1">US Technology Sector</p>
               </div>
             </div>
 
-            <div className="space-y-4 font-mono text-sm">
-              <div className="flex justify-between items-center bg-[#0a0f1a] p-3 rounded border border-slate-800">
-                <span className="text-slate-500">BASE_SALARY</span>
-                <span className="text-emerald-400">$150,000</span>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100">
+                <span className="text-slate-500 font-bold text-sm uppercase tracking-wider">Base Salary</span>
+                <span className="text-slate-900 font-black text-xl" style={mono}>$150,000</span>
               </div>
-              <div className="flex justify-between items-center bg-[#0a0f1a] p-3 rounded border border-slate-800">
-                <span className="text-slate-500">PAIN_POINT</span>
-                <span className="text-slate-300">Calendar Coordination</span>
+              <div className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100">
+                <span className="text-slate-500 font-bold text-sm uppercase tracking-wider">Pain Point</span>
+                <span className="text-slate-700 font-bold text-lg">Calendar Coordination</span>
               </div>
-              <div className="flex justify-between items-center bg-red-500/10 p-3 rounded border border-red-500/30">
-                <span className="text-red-400/80">QUARTERLY_BLEED</span>
-                <span className="text-red-400 font-bold drop-shadow-[0_0_5px_rgba(248,113,113,0.8)] animate-pulse">$18,400</span>
+              <div className="flex justify-between items-center bg-red-50 p-5 rounded-xl border border-red-100 shadow-inner">
+                <span className="text-red-600 font-bold text-sm uppercase tracking-wider flex items-center gap-2"><AlertCircle className="w-4 h-4"/> Quarterly Bleed</span>
+                <span className="text-red-600 font-black text-2xl" style={mono}>$18,400</span>
               </div>
             </div>
           </motion.div>
@@ -141,38 +212,42 @@ export function AssetAudience() {
 
 export function AssetChannel() {
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <div className={brutalCard}>
-        <MacControls title="linkedin_ads_manager.sh" />
-        <div className="p-6 font-mono text-sm">
-          <div className="flex items-center gap-2 text-blue-400 mb-6 pb-4 border-b border-slate-800">
-            <Filter className="w-5 h-5" />
-            <span className="font-bold text-base uppercase tracking-widest">Audience Builder</span>
-          </div>
+    <div className="w-full">
+      <div className={glassCard}>
+        <MacControls title="LinkedIn Ads Campaign Builder" />
+        <div className="p-10 bg-slate-50/50">
+          <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+            <div className="flex items-center gap-3 text-blue-600 mb-8 pb-6 border-b border-slate-100">
+              <Filter className="w-6 h-6" />
+              <span className="font-black text-xl tracking-tight">Audience Targeting</span>
+            </div>
 
-          <div className="space-y-3 mb-8">
-            <div className="flex items-center gap-3">
-              <CheckCircle2 className="w-4 h-4 text-blue-500" />
-              <span className="text-slate-400">Platform:</span>
-              <span className="text-white font-bold bg-blue-500/20 px-2 rounded">LinkedIn Network</span>
+            <div className="space-y-5 mb-10 text-base">
+              <div className="flex items-center gap-4 p-3 hover:bg-slate-50 rounded-xl transition-colors">
+                <CheckCircle2 className="w-5 h-5 text-blue-500" />
+                <span className="text-slate-500 font-medium">Platform:</span>
+                <span className="text-slate-900 font-bold bg-slate-100 px-3 py-1 rounded-lg">LinkedIn Network</span>
+              </div>
+              <div className="flex items-center gap-4 p-3 hover:bg-slate-50 rounded-xl transition-colors">
+                <CheckCircle2 className="w-5 h-5 text-blue-500" />
+                <span className="text-slate-500 font-medium">Geography:</span>
+                <span className="text-slate-900 font-bold bg-slate-100 px-3 py-1 rounded-lg">United States</span>
+              </div>
+              <div className="flex items-center gap-4 p-3 bg-amber-50 rounded-xl border border-amber-100">
+                <Lock className="w-5 h-5 text-amber-500" />
+                <span className="text-amber-700 font-medium">Verified Job Title:</span>
+                <span className="text-amber-900 font-black bg-white px-3 py-1.5 rounded-lg shadow-sm border border-amber-200">"Solutions Architect"</span>
+              </div>
             </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle2 className="w-4 h-4 text-blue-500" />
-              <span className="text-slate-400">Geo:</span>
-              <span className="text-white font-bold bg-slate-800 px-2 rounded">United States</span>
-            </div>
-            <div className="flex items-center gap-3 pt-2">
-              <Lock className="w-4 h-4 text-amber-500" />
-              <span className="text-slate-400">Verified Job Title:</span>
-              <span className="text-amber-400 font-bold bg-amber-500/10 border border-amber-500/30 px-2 rounded">"Solutions Architect"</span>
-            </div>
-          </div>
 
-          <div className="p-5 bg-gradient-to-br from-blue-900/40 to-indigo-900/40 rounded-xl border border-blue-500/30 text-center relative overflow-hidden">
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl blur opacity-20" />
-            <p className="text-blue-200/60 text-xs mb-2 relative z-10 uppercase tracking-widest">Target Audience Size</p>
-            <p className="text-4xl text-white font-black tracking-tight relative z-10" style={mono}>50,000</p>
-            <p className="text-emerald-400 text-xs mt-2 relative z-10">Status: Ready to Launch</p>
+            <div className="p-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl shadow-xl shadow-blue-500/20 text-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+              <p className="text-blue-100 font-bold text-sm mb-3 relative z-10 uppercase tracking-widest">Target Audience Size</p>
+              <p className="text-6xl text-white font-black tracking-tight relative z-10 drop-shadow-md" style={mono}>50,000</p>
+              <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-md rounded-full text-white font-bold text-sm relative z-10">
+                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> Campaign Ready to Launch
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -180,7 +255,7 @@ export function AssetChannel() {
   );
 }
 
-function AssetTOF() {
+export function AssetTOF() {
   const [text, setText] = useState('');
   const fullText = '$ doodle diagnose --pipeline Q3';
   
@@ -195,67 +270,81 @@ function AssetTOF() {
   }, []);
 
   return (
-    <div className="h-full bg-[#0a0f1a] font-mono text-sm leading-relaxed text-slate-300 p-6 flex flex-col justify-center">
-      <div className="flex">
-        <span className="text-emerald-400 mr-2">➜</span> 
-        <span className="text-blue-300">~</span>
-        <span className="text-slate-100 ml-2">{text}<motion.span animate={{ opacity: [1, 0] }} transition={{ repeat: Infinity, duration: 0.8 }} className="inline-block w-2 h-4 bg-slate-400 ml-1 translate-y-0.5" /></span>
-      </div>
-      
-      {text === fullText && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.2 }} className="space-y-4 mt-4">
-          <p className="text-slate-500">[INFO] Scanning active opportunities...</p>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="text-slate-500">[INFO] Checking stakeholder sync status...</motion.p>
-          
-          <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.2, type: 'spring' }} 
-            className="my-6 p-5 bg-red-500/10 border border-red-500/40 rounded-lg relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-1 h-full bg-red-500" />
-            <p className="text-red-400 font-bold flex items-center gap-2 mb-2">
-              <AlertCircle className="w-4 h-4" /> FATAL ERROR: C-Suite Availability Sync Failed
-            </p>
-            <p className="text-red-400/70 text-xs">Multi-party coordination requires group consensus. 1:1 link returned 0 confirmed attendees.</p>
-          </motion.div>
-          
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 }} className="space-y-1 text-xs">
-            <p className="text-slate-600">Attempted resolution: calendly.com/john/30min</p>
-            <p className="text-slate-600">Status: <span className="text-red-400 font-bold">REJECTED, link does not support 5+ party negotiation</span></p>
-          </motion.div>
+    <div className="w-full">
+      <div className={glassCard}>
+        <MacControls title="Cold Outreach Creative (Ad 1)" />
+        <div className="bg-slate-100 p-8 flex items-center justify-center min-h-[500px]">
+          {/* THE AD ITSELF IS DARK MODE AS SPECIFIED IN THE TEXT */}
+          <div className="w-full bg-[#0a0f1a] rounded-xl shadow-2xl overflow-hidden border border-slate-800 flex flex-col h-[420px]">
+            <div className="flex items-center px-4 py-3 bg-[#111827] border-b border-slate-800">
+              <span className="text-slate-500 text-xs font-mono font-bold tracking-wider mx-auto">pipeline-diagnostics.sh</span>
+            </div>
+            
+            <div className="p-6 font-mono text-sm leading-relaxed text-slate-300 flex-1 overflow-y-auto">
+              <div className="flex mb-4">
+                <span className="text-emerald-400 mr-2">➜</span> 
+                <span className="text-blue-300 mr-2">~</span>
+                <span className="text-slate-100">{text}<motion.span animate={{ opacity: [1, 0] }} transition={{ repeat: Infinity, duration: 0.8 }} className="inline-block w-2 h-4 bg-slate-400 ml-1 translate-y-0.5" /></span>
+              </div>
+              
+              {text === fullText && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.2 }} className="space-y-4">
+                  <p className="text-slate-500">[INFO] Scanning active opportunities...</p>
+                  <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="text-slate-500">[INFO] Checking stakeholder sync status...</motion.p>
+                  
+                  <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.2, type: 'spring' }} 
+                    className="my-5 p-4 bg-red-500/10 border border-red-500/40 rounded-lg relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-1 h-full bg-red-500" />
+                    <p className="text-red-400 font-bold flex items-center gap-2 mb-2">
+                      <AlertCircle className="w-4 h-4" /> FATAL ERROR: C-Suite Availability Sync Failed
+                    </p>
+                    <p className="text-red-400/70 text-xs">Multi-party coordination requires group consensus. 1:1 link returned 0 confirmed attendees.</p>
+                  </motion.div>
+                  
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.8 }} className="space-y-1 text-xs mb-6">
+                    <p className="text-slate-600">Attempted resolution: calendly.com/john/30min</p>
+                    <p className="text-slate-600">Status: <span className="text-red-400 font-bold">REJECTED, link does not support 5+ party negotiation</span></p>
+                  </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.5 }} className="mt-8 pt-6 border-t border-slate-800">
-            <p className="text-white text-base font-sans font-bold mb-2">You engineered a million-dollar solution. Don't let a personal calendar link kill the deal.</p>
-            <button className="w-full py-3 mt-4 bg-blue-600 text-white text-sm font-bold rounded-lg font-sans shadow-[0_0_15px_rgba(37,99,235,0.4)]">
-              Calculate My Loss →
-            </button>
-          </motion.div>
-        </motion.div>
-      )}
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 2.5 }} className="pt-4 border-t border-slate-800">
+                    <p className="text-white text-base font-sans font-bold mb-2">You engineered a million-dollar solution. Don't let a personal calendar link kill the deal.</p>
+                    <button className="w-full py-3 mt-4 bg-blue-600 text-white text-sm font-bold rounded-lg font-sans shadow-[0_0_15px_rgba(37,99,235,0.4)]">
+                      Calculate My Loss →
+                    </button>
+                  </motion.div>
+                </motion.div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-export function AssetCreatives() {
-  const [activeTab, setActiveTab] = useState('tof');
+export function AssetMOF() {
+  const [loaded, setLoaded] = useState(false);
+
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <div className={brutalCard}>
-        <MacControls title="creative_assets.sh" />
-        <div className="flex bg-[#111827] border-b border-slate-800">
-          <button onClick={() => setActiveTab('tof')} className={`flex-1 py-3 text-xs font-mono font-bold transition-colors ${activeTab === 'tof' ? 'text-blue-400 border-b-2 border-blue-400 bg-[#0a0f1a]' : 'text-slate-500 hover:text-slate-300'}`}>
-            01_TOF_AD.exe
-          </button>
-          <button onClick={() => setActiveTab('mof')} className={`flex-1 py-3 text-xs font-mono font-bold transition-colors ${activeTab === 'mof' ? 'text-emerald-400 border-b-2 border-emerald-400 bg-[#0a0f1a]' : 'text-slate-500 hover:text-slate-300'}`}>
-            02_MOF_VIDEO.mp4
-          </button>
-        </div>
-        <div className="h-[480px]">
-          {activeTab === 'tof' ? <AssetTOF /> : (
-            <iframe
-              src="/mof_ad.html"
-              title="Doodle MOF LinkedIn Retargeting Ad"
-              className="w-full h-full border-0 bg-[#0a0f1a]"
-              sandbox="allow-scripts allow-same-origin"
-            />
+    <div className="w-full">
+      <div className={`${glassCard} relative`} style={{ height: '520px' }}>
+        <MacControls title="Retargeting Video (Ad 2)" />
+        <div className="h-[480px] bg-slate-50 relative p-8 flex items-center justify-center">
+          {!loaded && (
+            <div className="absolute inset-0 flex items-center justify-center bg-slate-100/50 backdrop-blur-md z-10">
+              <div className="text-center">
+                <Play className="w-12 h-12 text-slate-300 mx-auto mb-4 animate-pulse fill-slate-200" />
+                <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">Loading 25s Animation</p>
+              </div>
+            </div>
           )}
+          <iframe
+            src="/mof_ad.html"
+            title="Doodle MOF LinkedIn Retargeting Ad"
+            className="w-full h-full border-0 rounded-2xl shadow-xl shadow-slate-200"
+            onLoad={() => setLoaded(true)}
+            sandbox="allow-scripts allow-same-origin"
+          />
         </div>
       </div>
     </div>
@@ -264,29 +353,44 @@ export function AssetCreatives() {
 
 export function AssetLinkedIn() {
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <div className={brutalCard}>
-        <MacControls title="content_engine.ts" />
-        <div className="p-6 border-b border-slate-800 bg-[#111827]">
-          <p className="text-slate-400 font-mono text-xs mb-2">TARGET_PLATFORM: LINKEDIN_ARTICLE</p>
-          <p className="text-white font-bold text-xl leading-snug">The real reason your enterprise deals slip into next quarter</p>
-        </div>
-        <div className="p-6 text-slate-300 font-mono text-sm leading-relaxed space-y-4 max-h-[400px] overflow-y-auto">
-          <p>You engineered a solution that solves a real problem. The technical validation went well. The CTO nodded in the right places.</p>
-          <p>And then the deal slips. Not because of pricing. <span className="text-blue-400 font-bold">Because you couldn't get everyone on a call.</span></p>
-          <div className="pl-4 border-l-2 border-blue-500 text-slate-400 italic">
-            Fourteen-reply email threads, three rounds of "does Thursday work for everyone," one no-show from the buyer's security lead.
+    <div className="w-full">
+      <div className={glassCard}>
+        <MacControls title="LinkedIn Article Publication" />
+        <div className="p-8 bg-slate-50/50 h-[550px] flex items-center justify-center">
+          <div className="bg-white w-full h-full rounded-2xl shadow-xl border border-slate-100 overflow-hidden flex flex-col">
+            <div className="p-6 flex items-start gap-4 border-b border-slate-100">
+              <div className="w-14 h-14 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xl flex-shrink-0">SA</div>
+              <div className="flex-1">
+                <p className="text-lg font-bold text-slate-900">Solutions Architect / Pre-Sales</p>
+                <p className="text-base text-slate-500 font-medium">Enterprise SaaS · 2nd</p>
+                <p className="text-sm font-bold text-slate-400 mt-1">3d • Promoted</p>
+              </div>
+            </div>
+            
+            <div className="p-6 text-slate-700 text-lg leading-relaxed space-y-5 overflow-y-auto flex-1">
+              <p className="font-black text-slate-900 text-2xl tracking-tight leading-snug">The real reason your enterprise deals slip into next quarter</p>
+              <p className="font-medium">You engineered a solution that solves a real problem. The technical validation went well. The CTO nodded in the right places.</p>
+              <p className="font-medium">And then the deal slips. Not because of pricing. <strong className="text-blue-600">Because you couldn't get everyone on a call.</strong></p>
+              <div className="pl-5 border-l-4 border-blue-500 text-slate-600 italic bg-blue-50/50 py-3 pr-4 rounded-r-lg">
+                Fourteen-reply email threads, three rounds of "does Thursday work for everyone," one no-show from the buyer's security lead.
+              </div>
+              <p className="font-bold text-slate-900 pt-2">The numbers:</p>
+              <div className="space-y-3 bg-slate-50 p-5 rounded-xl border border-slate-100">
+                <div className="flex justify-between items-center"><span className="font-bold text-slate-600">Base Salary</span> <span className="text-slate-900 font-black" style={mono}>$120,000</span></div>
+                <div className="flex justify-between items-center"><span className="font-bold text-slate-600">Calls / Month</span> <span className="text-slate-900 font-black" style={mono}>8</span></div>
+                <div className="flex justify-between items-center"><span className="font-bold text-slate-600">Hours Lost / Call</span> <span className="text-slate-900 font-black" style={mono}>6</span></div>
+                <div className="flex justify-between items-center pt-3 border-t border-slate-200 mt-2">
+                  <span className="font-bold text-slate-900 uppercase text-sm">Cost Per Rep</span> 
+                  <span className="text-red-600 font-black text-xl" style={mono}>-$16,500/mo</span>
+                </div>
+              </div>
+            </div>
+            <div className="px-6 py-4 border-t border-slate-100 flex items-center gap-6 text-sm font-bold text-slate-500 bg-slate-50">
+              <span className="hover:text-blue-600 cursor-pointer transition-colors">👍 247</span>
+              <span className="hover:text-blue-600 cursor-pointer transition-colors flex items-center gap-1.5"><MessageSquare className="w-4 h-4" /> 38 comments</span>
+              <span className="hover:text-blue-600 cursor-pointer transition-colors">12 reposts</span>
+            </div>
           </div>
-          <p>The numbers:</p>
-          <ul className="space-y-2">
-            <li className="flex justify-between border-b border-slate-800 pb-1"><span>Base Salary</span> <span className="text-emerald-400">$120,000</span></li>
-            <li className="flex justify-between border-b border-slate-800 pb-1"><span>Calls / Month</span> <span className="text-white">8</span></li>
-            <li className="flex justify-between border-b border-slate-800 pb-1"><span>Hours Lost / Call</span> <span className="text-red-400">6</span></li>
-            <li className="flex justify-between pt-2">
-              <span className="text-slate-500 font-bold">COST_PER_TEAM_MEMBER</span> 
-              <span className="text-red-500 font-bold bg-red-500/10 px-2 rounded">-$16,500/mo</span>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
@@ -295,48 +399,63 @@ export function AssetLinkedIn() {
 
 export function AssetNurture() {
   const [active, setActive] = useState(0);
-  const tabs = ['DAY_00.eml', 'DAY_02.eml', 'DAY_05.eml'];
+  const tabs = [
+    { label: 'Day 0', icon: <Calendar className="w-4 h-4" />, color: 'blue' },
+    { label: 'Day 2', icon: <LinkIcon className="w-4 h-4" />, color: 'emerald' },
+    { label: 'Day 5', icon: <MessageSquare className="w-4 h-4" />, color: 'indigo' }
+  ];
+  
   const bodies = [
-    <>
-      <span className="text-emerald-400 font-bold">{'<'} ROI_REPORT_GENERATED {'>'}</span><br/><br/>
-      Based on your inputs, scheduling friction is costing you an estimated <span className="text-red-400 font-bold bg-red-500/10 px-1 rounded">$18,400 per quarter</span> in time that could have been spent on technical validation.<br/><br/>
-      That is not a rounding error. That is a full week of productive work every three months.<br/><br/>
-      <span className="text-blue-400">ACTION_REQUIRED:</span> Start a free Team Trial to stop the bleed next month.
-    </>,
-    <>
-      <span className="text-blue-400 font-bold">{'<'} INTEGRATION_MAP {'>'}</span><br/><br/>
-      <span className="text-white">Salesforce:</span> Polls log automatically to active opportunities.<br/>
-      <span className="text-white">Slack:</span> Alerts trigger when consensus is reached.<br/>
-      <span className="text-white">Google Workspace:</span> One action updates six calendars simultaneously.<br/><br/>
-      No new workflow. No IT approval required for a tool under $500 a year.
-    </>,
-    <>
-      <span className="text-amber-400 font-bold">{'<'} ORG_APPROVAL_TEMPLATE {'>'}</span><br/><br/>
-      Forward this to your VP of Sales:<br/><br/>
-      <span className="text-slate-400 italic">"Our validation cycles are pushed into the following quarter by scheduling delays. I've calculated this costs our team roughly $18,400 per quarter in lost selling time per rep. Doodle's Team Plan ($420/year) eliminates that delay. ROI is recovered within the first deal cycle it accelerates."</span><br/><br/>
-      Pipeline language, one number, one solution.
-    </>
+    <div className="space-y-4">
+      <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-700 font-bold text-xs rounded-full uppercase tracking-widest mb-2">Financial Pain</div>
+      <p className="font-bold text-slate-900">Subject: Your Deal Velocity report</p>
+      <div className="w-full h-px bg-slate-100 my-4" />
+      <p>Based on your inputs, scheduling friction is costing you an estimated <span className="text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded border border-red-100">$18,400 per quarter</span> in time that could have been spent on technical validation.</p>
+      <p>That is not a rounding error. That is a full week of productive work every three months.</p>
+      <div className="mt-6 p-4 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between group cursor-pointer hover:border-blue-300 transition-colors">
+        <span className="font-bold text-blue-600 group-hover:text-blue-700">Start Free Team Trial</span>
+        <ArrowRight className="w-5 h-5 text-blue-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+      </div>
+    </div>,
+    <div className="space-y-4">
+      <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-700 font-bold text-xs rounded-full uppercase tracking-widest mb-2">Technical Ease</div>
+      <p className="font-bold text-slate-900">Subject: How Doodle fits into what you already use</p>
+      <div className="w-full h-px bg-slate-100 my-4" />
+      <div className="space-y-3">
+        <div className="flex gap-3 items-start"><CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" /><span className="text-slate-700"><strong className="text-slate-900">Salesforce:</strong> Polls log automatically to active opportunities.</span></div>
+        <div className="flex gap-3 items-start"><CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" /><span className="text-slate-700"><strong className="text-slate-900">Slack:</strong> Alerts trigger when consensus is reached.</span></div>
+        <div className="flex gap-3 items-start"><CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" /><span className="text-slate-700"><strong className="text-slate-900">Google Workspace:</strong> One action updates six calendars.</span></div>
+      </div>
+      <p className="font-bold text-slate-900 pt-2">No new workflow. No IT approval required for a tool under $500 a year.</p>
+    </div>,
+    <div className="space-y-4">
+      <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-100 text-indigo-700 font-bold text-xs rounded-full uppercase tracking-widest mb-2">Org Approval</div>
+      <p className="font-bold text-slate-900">Subject: Four sentences for your VP of Sales</p>
+      <div className="w-full h-px bg-slate-100 my-4" />
+      <p className="text-slate-600">Forward this to your VP of Sales:</p>
+      <div className="p-5 bg-white border border-slate-200 rounded-xl shadow-sm italic text-slate-700 leading-relaxed">
+        "Our validation cycles are pushed into the following quarter by scheduling delays. I've calculated this costs our team roughly $18,400 per quarter in lost selling time per rep. Doodle's Team Plan ($420/year) eliminates that delay. ROI is recovered within the first deal cycle it accelerates."
+      </div>
+      <p className="font-bold text-slate-900 mt-2">Pipeline language, one number, one solution.</p>
+    </div>
   ];
 
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <div className={brutalCard}>
-        <MacControls title="nurture_sequence.sh" />
-        <div className="flex p-2 bg-[#111827] gap-2 border-b border-slate-800">
+    <div className="w-full">
+      <div className={glassCard}>
+        <MacControls title="Nurture Email Sequence" />
+        <div className="flex p-4 bg-slate-50 gap-3 border-b border-slate-100">
           {tabs.map((t, i) => (
             <button key={i} onClick={() => setActive(i)}
-              className={`flex-1 py-2 text-xs font-mono rounded border ${active === i ? 'bg-[#0a0f1a] text-emerald-400 border-emerald-500/30' : 'bg-[#111827] text-slate-500 border-transparent hover:border-slate-700'}`}>
-              {t}
+              className={`flex-1 py-3 px-4 flex items-center justify-center gap-2 font-bold text-sm rounded-xl transition-all shadow-sm ${active === i ? `bg-${t.color}-600 text-white shadow-md shadow-${t.color}-500/20 scale-105` : 'bg-white text-slate-500 hover:text-slate-800 border border-slate-200'}`}>
+              {t.icon} {t.label}
             </button>
           ))}
         </div>
-        <div className="p-6 h-[300px] font-mono text-sm text-slate-300 leading-relaxed overflow-y-auto">
-          <div className="flex">
-            <span className="text-blue-500 mr-2">~</span> 
-            <motion.div key={active} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-              {bodies[active]}
-            </motion.div>
-          </div>
+        <div className="p-10 h-[400px] text-lg text-slate-700 leading-relaxed overflow-y-auto bg-white">
+          <motion.div key={active} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, type: "spring", bounce: 0.4 }}>
+            {bodies[active]}
+          </motion.div>
         </div>
       </div>
     </div>
@@ -345,47 +464,47 @@ export function AssetNurture() {
 
 export function AssetCAC() {
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <div className={brutalCard}>
-        <MacControls title="cac_compression_model.ts" />
-        <div className="p-8 font-mono">
-          <div className="flex justify-between items-end h-48 mb-8 border-b border-slate-800 pb-4 relative">
-            <div className="absolute inset-0 bg-gradient-to-t from-blue-500/5 to-transparent pointer-events-none" />
+    <div className="w-full">
+      <div className={glassCard}>
+        <MacControls title="CAC Compression Model" />
+        <div className="p-12">
+          <div className="flex justify-between items-end h-[300px] mb-10 border-b-2 border-slate-100 pb-4 relative">
+            <div className="absolute inset-0 bg-gradient-to-t from-blue-50/50 to-transparent pointer-events-none" />
             
-            <div className="flex flex-col items-center gap-2 relative z-10 w-1/3">
-              <span className="text-red-400 font-bold">$140</span>
-              <motion.div initial={{ height: 0 }} animate={{ height: '140px' }} transition={{ duration: 1, type: 'spring' }} className="w-8 bg-gradient-to-t from-red-900/50 to-red-500/50 border border-red-500/30 rounded-t" />
-              <span className="text-slate-500 text-xs">M_03</span>
+            <div className="flex flex-col items-center gap-3 relative z-10 w-1/3 group">
+              <span className="text-slate-400 font-bold uppercase tracking-widest text-xs group-hover:text-blue-600 transition-colors">Month 3</span>
+              <span className="text-slate-900 font-black text-3xl" style={mono}>$140</span>
+              <motion.div initial={{ height: 0 }} animate={{ height: '200px' }} transition={{ duration: 1, type: 'spring' }} className="w-16 bg-gradient-to-t from-blue-100 to-blue-200 border border-blue-300 rounded-t-xl shadow-inner" />
             </div>
             
-            <div className="flex flex-col items-center gap-2 relative z-10 w-1/3">
-              <span className="text-yellow-400 font-bold">$110</span>
-              <motion.div initial={{ height: 0 }} animate={{ height: '110px' }} transition={{ duration: 1, delay: 0.2, type: 'spring' }} className="w-8 bg-gradient-to-t from-yellow-900/50 to-yellow-500/50 border border-yellow-500/30 rounded-t" />
-              <span className="text-slate-500 text-xs">M_06</span>
+            <div className="flex flex-col items-center gap-3 relative z-10 w-1/3 group">
+              <span className="text-slate-400 font-bold uppercase tracking-widest text-xs group-hover:text-indigo-600 transition-colors">Month 6</span>
+              <span className="text-slate-900 font-black text-3xl" style={mono}>$110</span>
+              <motion.div initial={{ height: 0 }} animate={{ height: '150px' }} transition={{ duration: 1, delay: 0.2, type: 'spring' }} className="w-16 bg-gradient-to-t from-indigo-100 to-indigo-200 border border-indigo-300 rounded-t-xl shadow-inner" />
             </div>
             
-            <div className="flex flex-col items-center gap-2 relative z-10 w-1/3">
-              <span className="text-emerald-400 font-bold drop-shadow-[0_0_10px_rgba(52,211,153,0.8)]">$85</span>
-              <motion.div initial={{ height: 0 }} animate={{ height: '85px' }} transition={{ duration: 1, delay: 0.4, type: 'spring' }} className="w-8 bg-gradient-to-t from-emerald-900/80 to-emerald-400/80 border border-emerald-400 shadow-[0_0_15px_rgba(52,211,153,0.3)] rounded-t relative overflow-hidden">
-                 <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent" />
+            <div className="flex flex-col items-center gap-3 relative z-10 w-1/3 group">
+              <span className="text-slate-400 font-bold uppercase tracking-widest text-xs group-hover:text-emerald-600 transition-colors">Month 12</span>
+              <span className="text-emerald-600 font-black text-4xl drop-shadow-sm" style={mono}>$85</span>
+              <motion.div initial={{ height: 0 }} animate={{ height: '100px' }} transition={{ duration: 1, delay: 0.4, type: 'spring' }} className="w-20 bg-gradient-to-t from-emerald-400 to-emerald-300 border border-emerald-400 rounded-t-xl shadow-[0_10px_20px_rgba(52,211,153,0.3)] relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent" />
               </motion.div>
-              <span className="text-emerald-500 font-bold text-xs">M_12</span>
             </div>
 
             {/* Connecting Line Mockup */}
             <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
               <motion.path 
                 initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, ease: "easeInOut" }}
-                d="M 80 40 L 250 70 L 420 95" 
-                fill="none" stroke="rgba(59, 130, 246, 0.5)" strokeWidth="2" strokeDasharray="5,5" 
+                d="M 100 80 L 300 130 L 500 180" 
+                fill="none" stroke="#3B82F6" strokeWidth="3" strokeDasharray="8,8" opacity="0.4"
               />
             </svg>
           </div>
           
-          <div className="space-y-3 text-xs">
-            <div className="flex items-center gap-2 text-slate-400"><div className="w-2 h-2 rounded-full bg-red-500" /> Cold LinkedIn Demand (Premium)</div>
-            <div className="flex items-center gap-2 text-slate-400"><div className="w-2 h-2 rounded-full bg-yellow-400" /> Retargeting + Search Intent</div>
-            <div className="flex items-center gap-2 text-emerald-400 font-bold"><div className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,1)]" /> Viral Loop Active (0 CAC referrals)</div>
+          <div className="space-y-4 text-sm font-medium bg-slate-50 p-6 rounded-2xl border border-slate-100">
+            <div className="flex items-center gap-3 text-slate-600"><div className="w-3 h-3 rounded-full bg-blue-300" /> Cold LinkedIn Demand (Premium Rates)</div>
+            <div className="flex items-center gap-3 text-slate-600"><div className="w-3 h-3 rounded-full bg-indigo-300" /> Retargeting + Search Intent Capture</div>
+            <div className="flex items-center gap-3 text-emerald-700 font-bold"><div className="w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)] animate-pulse" /> Viral Loop Active (Zero-CAC internal referrals)</div>
           </div>
         </div>
       </div>
@@ -395,39 +514,41 @@ export function AssetCAC() {
 
 export function AssetExpansion() {
   return (
-    <div className="w-full max-w-lg mx-auto">
-      <div className={brutalCard}>
-        <MacControls title="sys_expansion.exe" />
-        <div className="p-8 text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.15),transparent_70%)]" />
+    <div className="w-full">
+      <div className={glassCard}>
+        <MacControls title="System Expansion Unlocked" />
+        <div className="p-12 text-center relative overflow-hidden bg-white">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.05),transparent_70%)]" />
           
-          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', bounce: 0.5 }} className="w-20 h-20 mx-auto bg-blue-500/10 border border-blue-500/30 rounded-full flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(37,99,235,0.2)]">
-            <Activity className="w-10 h-10 text-blue-400" />
+          <motion.div initial={{ scale: 0, rotate: -45 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: 'spring', bounce: 0.6 }} className="w-24 h-24 mx-auto bg-gradient-to-br from-blue-500 to-indigo-600 rounded-3xl flex items-center justify-center mb-8 shadow-[0_20px_40px_-10px_rgba(37,99,235,0.4)]">
+            <Activity className="w-12 h-12 text-white" />
           </motion.div>
           
-          <h3 className="text-2xl font-black text-white tracking-tight mb-2">YEAR_02 UNLOCKED</h3>
-          <p className="text-slate-400 font-mono text-xs mb-8">Enterprise credibility established.</p>
+          <h3 className="text-3xl font-black text-slate-900 tracking-tight mb-2 uppercase">Year 2 Unlocked</h3>
+          <p className="text-slate-500 font-bold uppercase tracking-widest text-xs mb-10">Enterprise credibility established.</p>
           
-          <div className="grid grid-cols-2 gap-4 font-mono text-sm">
-            <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.3 }} className="p-4 bg-[#111827] border border-slate-700 rounded-xl text-left hover:border-blue-500/50 transition-colors">
-              <span className="block text-slate-500 text-xs mb-1">MARKET_01</span>
-              <span className="text-white font-bold block mb-2">Corporate Legal</span>
-              <span className="text-emerald-400 text-xs">Billable Hours Loss</span>
+          <div className="grid grid-cols-2 gap-6 mb-8">
+            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }} className="p-6 bg-slate-50 border border-slate-100 rounded-2xl text-left hover:shadow-md transition-shadow group">
+              <span className="block text-slate-400 font-bold text-xs uppercase tracking-widest mb-2 group-hover:text-blue-500 transition-colors">Market 01</span>
+              <span className="text-slate-900 font-black text-xl block mb-2 tracking-tight">Corporate Legal</span>
+              <span className="inline-block px-3 py-1 bg-white border border-slate-200 rounded-lg text-slate-600 text-sm font-medium shadow-sm">Billable Hours Loss</span>
             </motion.div>
             
-            <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.5 }} className="p-4 bg-[#111827] border border-slate-700 rounded-xl text-left hover:border-blue-500/50 transition-colors">
-              <span className="block text-slate-500 text-xs mb-1">MARKET_02</span>
-              <span className="text-white font-bold block mb-2">Investment Banking</span>
-              <span className="text-emerald-400 text-xs">M&A Deal Velocity</span>
+            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }} className="p-6 bg-slate-50 border border-slate-100 rounded-2xl text-left hover:shadow-md transition-shadow group">
+              <span className="block text-slate-400 font-bold text-xs uppercase tracking-widest mb-2 group-hover:text-blue-500 transition-colors">Market 02</span>
+              <span className="text-slate-900 font-black text-xl block mb-2 tracking-tight">Investment Banking</span>
+              <span className="inline-block px-3 py-1 bg-white border border-slate-200 rounded-lg text-slate-600 text-sm font-medium shadow-sm">M&A Deal Velocity</span>
             </motion.div>
           </div>
           
-          <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.8 }} className="mt-6 p-4 bg-blue-900/20 border border-blue-500/30 rounded-xl flex items-center justify-between">
+          <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.8 }} className="p-6 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-between shadow-xl shadow-blue-500/20">
             <div className="text-left">
-              <span className="block text-blue-400 text-xs font-mono mb-1">ENTERPRISE_UPSELL</span>
-              <span className="text-white font-bold">$15,000+ Org Contracts</span>
+              <span className="block text-blue-200 text-xs font-bold uppercase tracking-widest mb-1">Enterprise Upsell Path</span>
+              <span className="text-white font-black text-2xl tracking-tight" style={mono}>$15,000+ Org Contracts</span>
             </div>
-            <Lock className="w-5 h-5 text-blue-400" />
+            <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30">
+              <Lock className="w-6 h-6 text-white" />
+            </div>
           </motion.div>
         </div>
       </div>
